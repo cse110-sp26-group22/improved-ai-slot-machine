@@ -29,4 +29,4 @@ When the user wins there are big splash screen elements and pop ups.
 
 ## Reference Images
 
-Find all images here: ![themes](https://imgur.com/gallery/slot-themes-JXAp2Jo)
+Find all images here: [themes](https://imgur.com/gallery/slot-themes-JXAp2Jo)
