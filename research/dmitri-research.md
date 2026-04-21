@@ -29,9 +29,12 @@ of 256 or more.
 - Technological advancements have improved the quality of online slot machines	
 	- 3D animations, interactive bonuses, real-time lighting, physics-based graphics
 
+## Questions asked from my mom:
 
+Most slot machines has the minimum too high, and your money goes too fast for the slot machine.
 
-
+Cares about the storyline, if it looks fun like "fishing" with bonuses being better fish, or Cleopatra (Egyptian), if you hit the bonus it becomes
+more fun. 
 
 ### Links:
 
