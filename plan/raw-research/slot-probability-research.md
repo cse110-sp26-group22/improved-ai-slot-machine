@@ -99,3 +99,6 @@ function weightedRandom(symbols) {
 
 - Study Breaks (2020). *The Psychology Behind Slot Games.*  
   https://studybreaks.com/thoughts/slots-games-psychology/
+
+-Also this link is a good link n for looking at idk lol
+  https://easy.vegas/games/slots/program
