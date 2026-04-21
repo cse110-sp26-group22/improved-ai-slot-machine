@@ -87,3 +87,18 @@ function weightedRandom(symbols) {
 - General knowledge of casino game design and probability theory
 - Concepts from behavioral psychology (variable ratio reinforcement schedules)
 - Common patterns in mobile gambling app design
+
+- Strickland, L.H. & Grote, F.W. (1967). *Temporal presentation of winning symbols and slot machines.* — Original study on near-miss reel weighting (70/50/30% across reels).  
+  https://www.stat.berkeley.edu/~aldous/157/Papers/near_miss.pdf
+
+- Witts, N. et al. (2019). *The Near-Miss Effect in Slot Machines: A Review and Experimental Analysis Over Half a Century Later.* PubMed / PMC.  
+  https://pubmed.ncbi.nlm.nih.gov/31522339/
+
+- Easy Vegas (2025). *How Slot Machines Work.*  
+  https://easy.vegas/games/slots/how-they-work
+
+- Study Breaks (2020). *The Psychology Behind Slot Games.*  
+  https://studybreaks.com/thoughts/slots-games-psychology/
+
+-Also this link is a good link n stuff for looking at idk lol
+  https://easy.vegas/games/slots/program
