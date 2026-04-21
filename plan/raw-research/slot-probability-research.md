@@ -94,9 +94,6 @@ function weightedRandom(symbols) {
 - Witts, N. et al. (2019). *The Near-Miss Effect in Slot Machines: A Review and Experimental Analysis Over Half a Century Later.* PubMed / PMC.  
   https://pubmed.ncbi.nlm.nih.gov/31522339/
 
-- Prof. Boston (2026). *The Near-Miss Effect: How Slot Machines Engineer Almost-Wins.*  
-  https://www.teachboston.org/near-miss-effect-slots/
-
 - Easy Vegas (2025). *How Slot Machines Work.*  
   https://easy.vegas/games/slots/how-they-work
 
