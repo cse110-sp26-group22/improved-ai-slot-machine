@@ -59,9 +59,9 @@ of 256 or more.
 if you hit the bonus it becomes more fun.
 
 ### Links to Sources: 
-[How Slots Work](https://www.gamesense.com/games/how-do-slot-machines-work.html)
-[No Tricks, Just Clicks: How Do Online Slot Machines Work?](https://www.covers.com/casino/guides/how-do-online-slot-machines-work)
-[How Graphics and Themes Enhance Online Slot Experience](https://posthubster.com/how-graphics-and-themes-enhance-slot-online-experience/)
+- [How Slots Work](https://www.gamesense.com/games/how-do-slot-machines-work.html)
+- [No Tricks, Just Clicks: How Do Online Slot Machines Work?](https://www.covers.com/casino/guides/how-do-online-slot-machines-work)
+- [How Graphics and Themes Enhance Online Slot Experience](https://posthubster.com/how-graphics-and-themes-enhance-slot-online-experience/)
 - [The Mechanics of Magic](https://mechanicsofmagic.com/2025/05/23/critical-play-games-of-chance-addiction-20/)
 - [What Makes A Game Fun?](https://www.gamedeveloper.com/design/what-makes-a-game-fun-)
 - [Just Fun and Games? A Sociological Consideration of Fun in Video Games](https://journals.sagepub.com/doi/10.1177/15554120241254876)
