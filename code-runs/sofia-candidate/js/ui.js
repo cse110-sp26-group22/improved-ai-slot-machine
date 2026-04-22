@@ -77,7 +77,7 @@ export class UI {
     async animateSpin(results) {
         const baseDuration = 1200; // Base time for the first reel
         const reelContainers = document.querySelectorAll('.reel');
-        const symbolHeight = 100; // Updated to match CSS
+        const symbolHeight = 80; // Updated to match 4x4 CSS
         
         this.spinButton.disabled = true;
         this.winOverlay.classList.add('hidden');
@@ -86,14 +86,13 @@ export class UI {
         const promises = Array.from(reelContainers).map((reel, i) => {
             return new Promise(resolve => {
                 const symbolList = reel.querySelector('.reel-symbols');
-                const finalThree = results.reels[i].map(id => SYMBOLS.find(s => s.id === id).char);
+                const finalFour = results.reels[i].map(id => SYMBOLS.find(s => s.id === id).char);
                 
                 const currentSymbols = Array.from(symbolList.children).map(s => s.textContent);
                 
-                // Use a slightly smaller filler to fit the shorter duration while maintaining speed
-                const fillerCount = 20 + (i * 5);
+                const fillerCount = 30 + (i * 5);
                 const filler = this.getRandomSymbolChars(fillerCount);
-                const allChars = [...currentSymbols, ...filler, ...finalThree];
+                const allChars = [...currentSymbols, ...filler, ...finalFour];
                 
                 this.setReelSymbols(i, allChars);
 
@@ -102,24 +101,19 @@ export class UI {
                 
                 void symbolList.offsetHeight;
 
-                // Subtle blur that fades as it slows down would be ideal, 
-                // but for now we'll just keep it very light.
                 symbolList.style.filter = 'blur(1px)';
 
-                const scrollDistance = (allChars.length - 3) * symbolHeight;
+                const scrollDistance = (allChars.length - 4) * symbolHeight;
                 
-                // Adjusted duration to finish all reels within ~2 seconds
-                // Reel 0: 1.2s, Reel 1: 1.5s, Reel 2: 1.8s
                 const duration = baseDuration + (i * 300);
                 
-                // Stronger easing-out (0.15, 0, 0.15, 1) to make the slowdown very visible and "heavy"
                 symbolList.style.transition = `transform ${duration}ms cubic-bezier(0.15, 0, 0.15, 1.02)`;
                 symbolList.style.transform = `translateY(-${scrollDistance}px)`;
 
                 setTimeout(() => {
                     symbolList.style.filter = 'none';
                     symbolList.style.transition = 'none';
-                    this.setReelSymbols(i, finalThree);
+                    this.setReelSymbols(i, finalFour);
                     symbolList.style.transform = 'translateY(0)';
                     resolve();
                 }, duration + 50);
@@ -134,19 +128,22 @@ export class UI {
     showWin(amount, details, audioController) {
         if (amount <= 0) return;
 
-        // Big win threshold: 100 credits or more
-        if (amount >= 100) {
-            // BIG WIN
+        if (details.isSpecialWin || amount >= 500) {
+            // BIG/SPECIAL WIN
             this.winAmountDisplay.textContent = `+${amount.toLocaleString()}`;
-            this.winMessage.textContent = "BIG WIN!";
+            this.winMessage.textContent = details.isSpecialWin ? "ULTRA WIN!!" : "BIG WIN!";
             this.winMessage.style.color = "var(--color-accent)";
             this.winOverlay.classList.remove('hidden');
-            if (audioController) audioController.playRoar();
+            if (audioController) {
+                audioController.playRoar();
+                audioController.playRoar(); // Extra roar!
+            }
             this.triggerRain('big');
+            this.triggerRain('big'); // Double rain!
             
             setTimeout(() => {
                 this.winOverlay.classList.add('hidden');
-            }, 4000);
+            }, 5000);
         } else {
             // SMALL WIN
             const smallAnimals = ['🦜', '🐒', '🦋', '🦎', '🐿️', '🐸'];
@@ -164,12 +161,12 @@ export class UI {
             }, 2500);
         }
         
-        // Highlight paylines (simplified for now)
+        // Highlight paylines
         details.winDetails.forEach(detail => {
             const lineEl = document.getElementById(`payline-${detail.line}`);
             if (lineEl) {
                 lineEl.classList.add('active');
-                setTimeout(() => lineEl.classList.remove('active'), 2000);
+                setTimeout(() => lineEl.classList.remove('active'), 3000);
             }
         });
     }

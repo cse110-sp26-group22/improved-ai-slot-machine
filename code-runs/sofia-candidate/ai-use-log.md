@@ -1,5 +1,5 @@
 # AI Use Log
-
+---
 **Prompt:**  Read the file GEMINI.md and build a fun and exciting slot machine web app following the stated requirements
 
 **Notes:** Gemini CLI read GEMINI.md as requested, then asked to enter Plan Mode to design the architecture. After that it proposed a HTML/CSS/JS tech stack and game mechanics. It defined implementation phases as
@@ -51,7 +51,7 @@ The following is a transcript of its final notes for the summary:
      - Win Mechanics: Introduced a "2 or 3 of a kind" win condition to significantly improve player engagement (hit frequency) while balancing payouts to target
        a ~95% RTP (verified at ~97% via 100k spin simulation).
      - Audio: Used Web Audio API for synthesized SFX to ensure the app is self-contained without external assets.
-
+---
 **Prompt:** Make sure that the webapp fits in the screen, since currently it is cut off. Also make sure that you add a looping background music.  
 
 The Nature Slot Machine is now ready, featuring a responsive UI, looping background music, and a 95% RTP; I'll finish up with a final summary.
@@ -72,7 +72,7 @@ The Nature Slot Machine is now ready, featuring a responsive UI, looping backgro
      - Audio: Synthesized a multi-oscillator sine wave drone for BGM to maintain the "Self-Contained" requirement while providing a looping soundtrack.
   
 The backgorund music is an ominous low hum, furthermore the spinning animation has decreased in quality. The app is also missing good visual flourish
-
+---
 **Prompt:** The background music is too ominous, make it loop and make it fun and bright. Add visual elements to the side of the webapp
 
 The rolling animation is still a little wonky and choppy.
@@ -98,7 +98,7 @@ The look of the webapp has worsened.
  The look is back to normal. Seemes to have fixed the issue. I will attemps to make the look more striking.
 
  **Prompt:** Make the background striped or wavy, use multiple shades of green and some colorful spots inspired by flowers.
-
+---
  I am pretty satisfied at this point, but will continue to see what more I can change.
 
  **Prompt:** When a win happens, add a big lion to the splash screen and a roaring sound    
@@ -110,9 +110,32 @@ The look of the webapp has worsened.
  **Prompt:**Make leaves rain down during a small win. Make the animal on the small win splash screen random.    
 
  **Prompt:**Bring back the big splash with a roaring lion for the big wins (over or at 100 credits won)  
-
+---
  Visually I am more satisfied now. But the winning mechanic doesn't seem to work properly, even when symbols align it doesn't trigger a win.
 
  **Prompt:**Make sure that the win triggers correctly. Read carefully and make sure that when same symbols align a win happens  
 
- Since I asked it to change the mechanic, it is now running tests again and adjusting the RTP 
+ Since I asked it to change the mechanic, it is now running tests again and adjusting the RTP.
+
+ I will now attempt to see if we can expand the grid size and improve the symbol matching.
+
+ **Prompt:** Expand the grid to a 4x4. Make sure to give a win only when the exact symbols match, both horizontally, vertically and diagonally. If multiple directions match, give a really special win.
+
+ The grid is not a proper 4x4
+
+ **Prompt:** Carefully go over the grid, make sure it is a 4x4, as it currently is not correct   
+
+ The grid now looks correct, I will ask it to check the RTP again
+
+ **Prompt:** Check the RTP again
+
+ It took multiple attempts to get the RTP correct.
+
+ Final Summary for ai-use-log
+   - What was done: Performed extensive statistical simulation and calibration for the expanded 4x4 game engine.
+   - Files created/modified: 
+     - tests/unit/logic.test.js: Upgraded the test suite to simulate 200,000 spins on a 16-cell grid with diagonal/vertical win detection.
+     - js/game-logic.js: Iteratively fine-tuned symbol weights to stabilize the Return to Player percentage.
+   - Decisions made: 
+     - RTP Stabilization: Aimed for ~90% RTP to balance the extreme payouts possible from 4-in-a-row diagonal matches and multi-line multipliers.
+     - Hit Frequency: Calibrated weights to ensure a "Hit" occurs every ~15 spins (6.6%), providing a challenging but rewarding player experience.

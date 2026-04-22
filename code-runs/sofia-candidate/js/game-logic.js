@@ -1,12 +1,12 @@
 import { getWeightedRandom } from './rng.js';
 
 export const SYMBOLS = [
-    { id: 'JACKPOT', char: '🦁', weight: 35, payout: 50 },
-    { id: 'MONKEY', char: '🐒', weight: 45, payout: 20 },
-    { id: 'TOUCAN', char: '🦜', weight: 55, payout: 10 },
-    { id: 'FLOWER', char: '🌺', weight: 65, payout: 5 },
-    { id: 'LEAF', char: '🍃', weight: 75, payout: 2 },
-    { id: 'EMPTY', char: '🌵', weight: 20, payout: 0 }
+    { id: 'JACKPOT', char: '🦁', weight: 15, payout: 50 },
+    { id: 'MONKEY', char: '🐒', weight: 22, payout: 20 },
+    { id: 'TOUCAN', char: '🦜', weight: 30, payout: 10 },
+    { id: 'FLOWER', char: '🌺', weight: 38, payout: 5 },
+    { id: 'LEAF', char: '🍃', weight: 45, payout: 2 },
+    { id: 'EMPTY', char: '🌵', weight: 30, payout: 0 }
 ];
 
 export const VALID_BETS = [25, 50, 75, 100, 200, 500, 1000, 2000];
@@ -45,7 +45,7 @@ export class GameState {
     }
 
     /**
-     * Generate 3x3 grid of symbols
+     * Generate 4x4 grid of symbols
      * Returns 2D array: reels[reelIndex][row]
      */
     generateReels() {
@@ -53,9 +53,9 @@ export class GameState {
         const weights = SYMBOLS.map(s => s.weight);
         
         const result = [];
-        for (let reel = 0; reel < 3; reel++) {
+        for (let reel = 0; reel < 4; reel++) {
             const column = [];
-            for (let row = 0; row < 3; row++) {
+            for (let row = 0; row < 4; row++) {
                 column.push(getWeightedRandom(symbolIds, weights));
             }
             result.push(column);
@@ -64,60 +64,61 @@ export class GameState {
     }
 
     /**
-     * Calculate wins based on reels and current bet.
-     * Center line is always active.
-     * Top and Bottom lines active if bet >= 200.
+     * Calculate wins based on 4x4 reels.
+     * Check 4 rows, 4 columns, and 2 diagonals.
      */
     calculateWin(reels) {
         let totalWin = 0;
         const winDetails = [];
         const bet = this.currentBet;
         
-        const checkLine = (row, lineName) => {
-            const s1 = reels[0][row];
-            const s2 = reels[1][row];
-            const s3 = reels[2][row];
-            
-            let winningSymbolId = null;
-            let multiplier = 0;
-
-            if (s1 === s2 && s2 === s3) {
-                // 3 of a kind
-                winningSymbolId = s1;
-                const symbolDef = SYMBOLS.find(s => s.id === winningSymbolId);
-                multiplier = symbolDef ? symbolDef.payout : 0;
-            } else if (s1 === s2) {
-                // 2 of a kind (left + center)
-                winningSymbolId = s1;
-                const symbolDef = SYMBOLS.find(s => s.id === winningSymbolId);
-                multiplier = symbolDef ? symbolDef.payout * 0.2 : 0;
-            } else if (s2 === s3) {
-                // 2 of a kind (center + right)
-                winningSymbolId = s2;
-                const symbolDef = SYMBOLS.find(s => s.id === winningSymbolId);
-                multiplier = symbolDef ? symbolDef.payout * 0.2 : 0;
+        // Check Rows (Horizontal)
+        for (let row = 0; row < 4; row++) {
+            const s1 = reels[0][row], s2 = reels[1][row], s3 = reels[2][row], s4 = reels[3][row];
+            if (s1 === s2 && s2 === s3 && s3 === s4 && s1 !== 'EMPTY') {
+                const symbolDef = SYMBOLS.find(s => s.id === s1);
+                const amount = symbolDef.payout * bet * 2; // Extra multiplier for 4-in-a-row
+                totalWin += amount;
+                winDetails.push({ line: `row-${row}`, amount, symbol: s1 });
             }
-            
-            // Ensure EMPTY symbols don't trigger wins even if they align
-            if (winningSymbolId === 'EMPTY') multiplier = 0;
-
-            if (multiplier > 0) {
-                const winAmount = Math.floor(multiplier * bet);
-                totalWin += winAmount;
-                winDetails.push({ line: lineName, amount: winAmount, symbol: winningSymbolId });
-            }
-        };
-
-        // Center row is always active (index 1)
-        checkLine(1, 'center');
-
-        // Optional lines if bet is high enough
-        if (bet >= 200) {
-            checkLine(0, 'top');
-            checkLine(2, 'bottom');
         }
 
-        return { totalWin, winDetails };
+        // Check Columns (Vertical)
+        for (let col = 0; col < 4; col++) {
+            const s1 = reels[col][0], s2 = reels[col][1], s3 = reels[col][2], s4 = reels[col][3];
+            if (s1 === s2 && s2 === s3 && s3 === s4 && s1 !== 'EMPTY') {
+                const symbolDef = SYMBOLS.find(s => s.id === s1);
+                const amount = symbolDef.payout * bet * 2;
+                totalWin += amount;
+                winDetails.push({ line: `col-${col}`, amount, symbol: s1 });
+            }
+        }
+
+        // Check Diagonals
+        // Main diagonal (\)
+        const d1_1 = reels[0][0], d1_2 = reels[1][1], d1_3 = reels[2][2], d1_4 = reels[3][3];
+        if (d1_1 === d1_2 && d1_2 === d1_3 && d1_3 === d1_4 && d1_1 !== 'EMPTY') {
+            const symbolDef = SYMBOLS.find(s => s.id === d1_1);
+            const amount = symbolDef.payout * bet * 5; // Big bonus for diagonals
+            totalWin += amount;
+            winDetails.push({ line: 'diag-1', amount, symbol: d1_1 });
+        }
+
+        // Anti-diagonal (/)
+        const d2_1 = reels[0][3], d2_2 = reels[1][2], d2_3 = reels[2][1], d2_4 = reels[3][0];
+        if (d2_1 === d2_2 && d2_2 === d2_3 && d2_3 === d2_4 && d2_1 !== 'EMPTY') {
+            const symbolDef = SYMBOLS.find(s => s.id === d2_1);
+            const amount = symbolDef.payout * bet * 5;
+            totalWin += amount;
+            winDetails.push({ line: 'diag-2', amount, symbol: d2_1 });
+        }
+
+        const isSpecialWin = winDetails.length > 1;
+        if (isSpecialWin) {
+            totalWin *= 2; // Double total win for multiple lines!
+        }
+
+        return { totalWin, winDetails, isSpecialWin };
     }
 
     processSpin() {
@@ -127,13 +128,13 @@ export class GameState {
         this.isSpinning = true;
         
         const reels = this.generateReels();
-        const { totalWin, winDetails } = this.calculateWin(reels);
+        const { totalWin, winDetails, isSpecialWin } = this.calculateWin(reels);
         
         this.balance += totalWin;
         this.lastWin = totalWin;
         this.totalWon += totalWin;
         this.isSpinning = false;
         
-        return { reels, totalWin, winDetails };
+        return { reels, totalWin, winDetails, isSpecialWin };
     }
 }
