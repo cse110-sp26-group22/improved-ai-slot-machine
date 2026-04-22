@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casino Slot Machine</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="machine-cabinet" id="machine">
+        <div class="marquee">
+            <h1>🎰 Lucky 7s Slots 🎰</h1>
+        </div>
+        
+        <div class="screen-glass">
+            <div class="payline"></div>
+            <div class="reels-container">
+                <div class="reel" id="reel1">🍒</div>
+                <div class="reel" id="reel2">🍋</div>
+                <div class="reel" id="reel3">🍒</div>
+            </div>
+        </div>
+
+        <div class="dashboard">
+            <div class="displays">
+                <div class="led-screen">
+                    <span class="label">CREDIT</span>
+                    <span id="balance" class="value">10000</span>
+                </div>
+                
+                <div class="led-screen message-screen">
+                    <span id="message" class="value msg-text">INSERT COIN</span>
+                </div>
+                
+                <div class="led-screen">
+                    <span class="label">BET</span>
+                    <span id="bet" class="value">25</span>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button id="btn-decrease-bet" class="control-btn">- BET</button>
+                <button id="btn-spin" class="spin-btn">SPIN</button>
+                <button id="btn-increase-bet" class="control-btn">+ BET</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="tests.js"></script>
+</body>
+</html>
+
