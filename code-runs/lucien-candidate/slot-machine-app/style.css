@@ -343,6 +343,10 @@ header h1 {
     to { color: #fff; text-shadow: 0 0 20px var(--primary-gold), 0 0 40px var(--neon-red); }
 }
 
+body.no-scroll {
+    overflow: hidden;
+}
+
 /* Pay Table Modal */
 .modal {
     display: none;
@@ -354,13 +358,24 @@ header h1 {
     height: 100%;
     background-color: rgba(0,0,0,0.8);
     backdrop-filter: blur(8px);
-    overflow: auto;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-gold) transparent;
+}
+
+.modal::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal::-webkit-scrollbar-thumb {
+    background-color: var(--primary-gold);
+    border-radius: 10px;
 }
 
 .modal-content {
     background: linear-gradient(135deg, #1e1e2f, #0a0a0c);
-    margin: 5% auto;
-    padding: 30px;
+    margin: 30px auto;
+    padding: clamp(15px, 5vw, 30px);
     border: 3px solid var(--primary-gold);
     border-radius: 20px;
     width: 90%;

@@ -61,16 +61,20 @@ function populatePayTable() {
 // Modal Logic
 infoBtn.onclick = () => {
     modal.style.display = "block";
+    document.body.classList.add('no-scroll');
     if (typeof playClickSound === 'function') playClickSound();
 };
 
-closeBtn.onclick = () => {
+const closeModal = () => {
     modal.style.display = "none";
+    document.body.classList.remove('no-scroll');
 };
+
+closeBtn.onclick = closeModal;
 
 window.onclick = (event) => {
     if (event.target == modal) {
-        modal.style.display = "none";
+        closeModal();
     }
 };
 

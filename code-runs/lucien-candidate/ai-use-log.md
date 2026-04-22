@@ -62,3 +62,8 @@ Prompt: Add the pay table
 Response: Gemini modified index.html, script.js and style.css and added a paytable button.
 
 Observation: the paytable page is not properly polished. The vertical scroll bar appears when clicking the paytable.
+
+### Log 9:
+Prompt: there is a vertical scroll bar after clicking the paytable button
+
+Response: Gemini changed style.css and script.js, changing the scroll bar's visual to align with the slot machine.
