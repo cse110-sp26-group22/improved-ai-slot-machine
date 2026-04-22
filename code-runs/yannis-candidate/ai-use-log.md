@@ -2,18 +2,35 @@
 
 ## Entry 1 — Initial Scaffold
 Prompted Gemini to build a 3-reel slot machine with weighted probabilities,
-bet sizing, $100 balance, Vegas theme, JSDoc, ~92% RTP. Game worked first try,
-files landed in repo root so moved them manually to yannis-candidate.
+bet sizing, $100 balance, Vegas theme, and ~92% RTP.
 
-## Entry 2 — Animation Planning
-Asked Gemini to add spin animation, win flash, near-miss mechanic, and game
-over screen. Gemini went into plan mode and asked for approval before coding.
+## Entry 2 — File Placement Issue
+Gemini placed files in repo root instead of yannis-candidate. Moved them
+manually. Learned Gemini uses the workspace root by default.
 
-## Entry 3 — Animation Implementation
-Gemini implemented all 4 features. Reels stop left to right with 300ms delay,
-wins flash gold, near-miss shows 2 jackpots 30% of the time, game over resets
-to $100. Everything still works.
+## Entry 3 — Animation Planning
+Asked Gemini to add spin animation, win flash, near-miss, and game over screen.
+Gemini entered plan mode and outlined strategy before coding.
 
-## Entry 4 — Paytable
-Asked Gemini to add a paytable showing each symbol, emoji, and payout multiplier.
-Styled in Vegas neon theme with gold multipliers and cyan headings.
+## Entry 4 — Spin Animation
+Gemini implemented staggered reel stop animation. Reels stop left to right
+with 300ms delay each.
+
+## Entry 5 — Win Flash & Near-Miss
+Gemini added golden neon win flash and near-miss mechanic triggering 30% of
+losses with 2 jackpot symbols.
+
+## Entry 6 — Game Over Screen
+Gemini added game over state when balance hits $0. Reset button restores $100.
+
+## Entry 7 — Paytable
+Asked Gemini to add a paytable showing symbols and payout multipliers.
+Styled in neon gold and cyan to match theme.
+
+## Entry 8 — Mobile Responsiveness
+Asked Gemini to make layout responsive to 375px. Added media queries scaling
+reels, text, and padding for mobile.
+
+## Entry 9 — Win Streak Counter
+Asked Gemini to add win streak counter. Shows neon magenta badge and fires
+"X WINS IN A ROW 🔥" message at 3+ consecutive wins.
