@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nature Slots - Wild Adventure</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦁</text></svg>">
+</head>
+<body>
+    <div class="bg-decorations" aria-hidden="true">
+        <div class="vine vine-left">🌿</div>
+        <div class="vine vine-right">🌿</div>
+        <div class="animal decor-monkey">🐒</div>
+        <div class="animal decor-parrot">🦜</div>
+        <div class="animal decor-lion">🦁</div>
+        <div class="animal decor-flower">🌺</div>
+        <div class="animal decor-leaf-1">🍃</div>
+        <div class="animal decor-leaf-2">🍃</div>
+    </div>
+    <main class="game-container">
+        <header>
+            <h1>NATURE SLOTS</h1>
+            <div class="stats">
+                <div class="stat-box">
+                    <span>CREDITS</span>
+                    <span id="balance-display" aria-live="polite">1,000</span>
+                </div>
+                <div class="stat-box golden">
+                    <span>TOTAL WON</span>
+                    <span id="total-won-display">0</span>
+                </div>
+            </div>
+        </header>
+
+        <section class="slot-machine" aria-label="Slot Machine Reels">
+            <!-- Reels remain same -->
+            <div class="reel-container" id="reels">
+                <div class="reel" data-index="0">
+                    <div class="reel-symbols"></div>
+                </div>
+                <div class="reel" data-index="1">
+                    <div class="reel-symbols"></div>
+                </div>
+                <div class="reel" data-index="2">
+                    <div class="reel-symbols"></div>
+                </div>
+            </div>
+            <div class="paylines-overlay">
+                <div class="payline center" id="payline-center"></div>
+                <div class="payline top" id="payline-top"></div>
+                <div class="payline bottom" id="payline-bottom"></div>
+            </div>
+        </section>
+
+        <section class="controls">
+            <button id="spin-button" class="btn-spin" aria-label="Spin Reels">SPIN</button>
+
+            <div class="bet-controls">
+                <button id="bet-decrease" aria-label="Decrease Bet" class="btn-control">-</button>
+                <div class="bet-display">
+                    <span>BET</span>
+                    <span id="current-bet-display">25</span>
+                </div>
+                <button id="bet-increase" aria-label="Increase Bet" class="btn-control">+</button>
+            </div>
+            
+            <div class="extra-controls">
+                <button id="mute-toggle" aria-label="Toggle Mute" class="btn-icon">🔊</button>
+            </div>
+        </section>
+
+        <div id="win-overlay" class="win-overlay hidden">
+            <div class="win-content">
+                <h2 id="win-message">WIN!</h2>
+                <div id="win-amount">0</div>
+            </div>
+        </div>
+
+        <div id="error-message" class="error-toast hidden" role="alert"></div>
+    </main>
+
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
