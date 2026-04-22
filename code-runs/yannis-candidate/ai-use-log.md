@@ -73,3 +73,22 @@ styling on spin button.
 ## Entry 20 — Screen Reader Support
 Added visually hidden live region that announces win/loss results to screen
 readers. All core tests verified passing after changes.
+
+## Final Conclusion
+
+Overall Gemini 3 performed well for this kind of iterative UI-focused task. The 
+initial scaffold was solid on the first try and each subsequent prompt built on 
+the last without breaking existing functionality. The biggest challenge was that 
+Gemini defaulted to the workspace root for file placement rather than the 
+specified directory, which required manual correction early on.
+
+The strategic approach of front-loading each prompt with specific requirements 
+(RTP targets, weighted probabilities, clean code standards) produced noticeably 
+better results than vague prompts would have. Gemini's plan mode was useful for 
+complex multi-feature prompts as it outlined its strategy before coding.
+
+The final slot machine is significantly improved over the original — it has 
+weighted probability logic, animations, near-miss mechanics, a paytable, win 
+streak tracking, unit tests, JSDoc documentation, and accessibility features. 
+The main limitation is that Gemini tends to produce consistent but somewhat 
+generic visual styling without custom assets to work from.
