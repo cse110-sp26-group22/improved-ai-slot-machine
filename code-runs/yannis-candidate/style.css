@@ -73,6 +73,52 @@ header h1 {
     color: #ff4d4d;
 }
 
+.paytable {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    border: 1px solid #333;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.neon-text-small {
+    font-size: 0.9rem;
+    color: var(--neon-cyan);
+    text-shadow: 0 0 5px var(--neon-cyan);
+    margin-bottom: 0.8rem;
+    letter-spacing: 2px;
+}
+
+.paytable-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.pay-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    padding: 0.3rem 0.8rem;
+    border-bottom: 1px solid #222;
+}
+
+.pay-row:last-child {
+    border-bottom: none;
+}
+
+.pay-row span:first-child {
+    color: #fff;
+    font-weight: bold;
+}
+
+.pay-row span:last-child {
+    color: var(--neon-gold);
+    text-shadow: 0 0 5px var(--neon-gold);
+}
+
 .slot-machine {
     display: flex;
     justify-content: space-around;
