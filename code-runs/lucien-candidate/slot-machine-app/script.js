@@ -1,12 +1,12 @@
 // Game Configuration
 const SYMBOLS = [
-    { name: 'CHERRY', icon: '🍒', weight: 40, payout: 2 },
-    { name: 'LEMON', icon: '🍋', weight: 30, payout: 5 },
-    { name: 'ORANGE', icon: '🍊', weight: 20, payout: 10 },
-    { name: 'PLUM', icon: '🍇', weight: 15, payout: 20 },
-    { name: 'BAR', icon: '➖', weight: 8, payout: 50 },
-    { name: 'SEVEN', icon: '7️⃣', weight: 4, payout: 100 },
-    { name: 'JACKPOT', icon: '💎', weight: 1, payout: 500 }
+    { name: 'CHERRY', icon: '🍒', weight: 45, payout: 80 },
+    { name: 'LEMON', icon: '🍋', weight: 35, payout: 150 },
+    { name: 'ORANGE', icon: '🍊', weight: 25, payout: 250 },
+    { name: 'PLUM', icon: '🍇', weight: 15, payout: 500 },
+    { name: 'BAR', icon: '➖', weight: 8, payout: 1500 },
+    { name: 'SEVEN', icon: '7️⃣', weight: 4, payout: 3500 },
+    { name: 'JACKPOT', icon: '💎', weight: 1, payout: 15000 }
 ];
 
 const BET_VALUES = [25, 50, 75, 100, 200, 500, 1000, 2000];
