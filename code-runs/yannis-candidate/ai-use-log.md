@@ -13,3 +13,7 @@ over screen. Gemini went into plan mode and asked for approval before coding.
 Gemini implemented all 4 features. Reels stop left to right with 300ms delay,
 wins flash gold, near-miss shows 2 jackpots 30% of the time, game over resets
 to $100. Everything still works.
+
+## Entry 4 — Paytable
+Asked Gemini to add a paytable showing each symbol, emoji, and payout multiplier.
+Styled in Vegas neon theme with gold multipliers and cyan headings.
