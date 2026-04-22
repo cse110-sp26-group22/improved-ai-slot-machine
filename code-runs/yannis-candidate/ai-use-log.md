@@ -62,3 +62,14 @@ Consistent naming conventions applied throughout. Function decomposition improve
 
 ## Entry 17 — Test Improvements
 tests.js updated to use new constants and handle edge cases like NaN balance.
+
+## Entry 18 — Viewport Fix
+Gemini refactored layout to fit entire game on desktop without scrolling.
+
+## Entry 19 — Accessibility Pass
+Added aria-labels to all interactive elements and enhanced disabled state
+styling on spin button.
+
+## Entry 20 — Screen Reader Support
+Added visually hidden live region that announces win/loss results to screen
+readers. All core tests verified passing after changes.
