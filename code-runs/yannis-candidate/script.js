@@ -38,6 +38,7 @@ let isSpinning = false;
 const balanceDisplay = document.getElementById('balance-amount');
 const streakDisplay = document.getElementById('win-streak');
 const statusMessage = document.getElementById('status-message');
+const ariaAnnouncer = document.getElementById('aria-announcer');
 const reels = [
     document.getElementById('reel-1'),
     document.getElementById('reel-2'),
@@ -83,12 +84,16 @@ function handleSpin() {
     const betAmount = getSelectedBet();
 
     if (isNaN(betAmount) || betAmount <= 0) {
-        updateStatusDisplay('Invalid bet amount!', false);
+        const msg = 'Invalid bet amount!';
+        updateStatusDisplay(msg, false);
+        announceToScreenReader(msg);
         return;
     }
 
     if (balance < betAmount) {
-        updateStatusDisplay('Insufficient funds!', false);
+        const msg = 'Insufficient funds!';
+        updateStatusDisplay(msg, false);
+        announceToScreenReader(msg);
         return;
     }
 
@@ -114,11 +119,15 @@ function startSpin(betAmount) {
     isSpinning = true;
     toggleControls(true);
     updateBalance(-betAmount);
-    updateStatusDisplay('Good luck...', false);
+    
+    const status = 'Good luck...';
+    updateStatusDisplay(status, false);
+    announceToScreenReader('Spinning the reels...');
 
-    reels.forEach(reel => {
+    reels.forEach((reel, index) => {
         reel.classList.remove('win-glow');
         reel.classList.add('spinning');
+        reel.setAttribute('aria-label', `Reel ${index + 1} spinning`);
     });
 
     const results = generateResults(betAmount);
@@ -127,6 +136,7 @@ function startSpin(betAmount) {
         setTimeout(() => {
             reel.classList.remove('spinning');
             reel.textContent = results[index].emoji;
+            reel.setAttribute('aria-label', `Reel ${index + 1}: ${results[index].name}`);
             
             const isLastReel = index === reels.length - 1;
             if (isLastReel) {
@@ -198,6 +208,7 @@ function handleWin(winAmount) {
         message = `🔥 ${winStreak} WINS IN A ROW! 🔥 $${winAmount} WON!`;
     }
     updateStatusDisplay(message, true);
+    announceToScreenReader(message);
     reels.forEach(reel => reel.classList.add('win-glow'));
 }
 
@@ -207,7 +218,9 @@ function handleWin(winAmount) {
  */
 function handleLoss() {
     winStreak = 0;
-    updateStatusDisplay('Better luck next time!', false);
+    const msg = 'Better luck next time!';
+    updateStatusDisplay(msg, false);
+    announceToScreenReader(msg);
 }
 
 /**
@@ -216,7 +229,9 @@ function handleLoss() {
  */
 function checkGameOver() {
     if (balance <= 0) {
-        updateStatusDisplay("You're out of money!", false);
+        const msg = "You're out of money!";
+        updateStatusDisplay(msg, false);
+        announceToScreenReader(msg + " Click reset to play again.");
         spinButton.classList.add('hidden');
         maxBetButton.classList.add('hidden');
         resetButton.classList.remove('hidden');
@@ -243,11 +258,14 @@ function resetGame() {
     balance = GAME_CONFIG.INITIAL_BALANCE;
     winStreak = 0;
     updateUI();
-    updateStatusDisplay('Good luck!', false);
+    const msg = 'Good luck!';
+    updateStatusDisplay(msg, false);
+    announceToScreenReader('Game reset. ' + msg);
     
-    reels.forEach(reel => {
+    reels.forEach((reel, index) => {
         reel.textContent = '?';
         reel.classList.remove('win-glow');
+        reel.setAttribute('aria-label', `Reel ${index + 1} ready`);
     });
 
     spinButton.classList.remove('hidden');
@@ -255,6 +273,22 @@ function resetGame() {
     resetButton.classList.add('hidden');
     toggleControls(false);
 }
+
+/**
+ * Announces a message to screen readers using the aria-live region.
+ * @param {string} message - The message to announce.
+ * @returns {void}
+ */
+function announceToScreenReader(message) {
+    if (ariaAnnouncer) {
+        ariaAnnouncer.textContent = '';
+        // Small timeout to ensure the change is detected if the message is the same
+        setTimeout(() => {
+            ariaAnnouncer.textContent = message;
+        }, 50);
+    }
+}
+
 
 /**
  * Selects a symbol based on weighted probability.

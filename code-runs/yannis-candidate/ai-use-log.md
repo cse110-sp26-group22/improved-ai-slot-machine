@@ -53,3 +53,12 @@ on unexpected input.
 ## Entry 14 — Max Bet Button
 Added a MAX BET button that selects $10 and auto-spins. HTML and CSS updated
 to accommodate it responsively.
+
+## Entry 15 — Magic Number Constants
+Gemini introduced GAME_CONFIG object to replace all magic numbers in script.js.
+
+## Entry 16 — Naming & Structure Cleanup
+Consistent naming conventions applied throughout. Function decomposition improved.
+
+## Entry 17 — Test Improvements
+tests.js updated to use new constants and handle edge cases like NaN balance.

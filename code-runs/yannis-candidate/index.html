@@ -12,28 +12,29 @@
             <h1 class="neon-text">VEGAS SLOTS</h1>
         </header>
 
-        <section class="display-panel">
+        <section class="display-panel" aria-label="Game Status">
             <div class="balance-info">
                 <div class="balance-display">
-                    Balance: <span id="balance-amount">$100</span>
+                    Balance: <span id="balance-amount" aria-live="polite">$100</span>
                 </div>
                 <div class="streak-display">
                     Win Streak: <span id="win-streak">0</span>
                 </div>
             </div>
-            <div id="status-message" class="status-message">Good luck!</div>
+            <div id="status-message" class="status-message" aria-live="polite">Good luck!</div>
+            <!-- Visually hidden live region for important announcements -->
+            <div id="aria-announcer" class="visually-hidden" aria-live="assertive"></div>
         </section>
 
-        <section class="slot-machine">
-            <div class="reel" id="reel-1">?</div>
-            <div class="reel" id="reel-2">?</div>
-            <div class="reel" id="reel-3">?</div>
+        <section class="slot-machine" aria-label="Slot Machine Reels">
+            <div class="reel" id="reel-1" aria-label="Reel 1">?</div>
+            <div class="reel" id="reel-2" aria-label="Reel 2">?</div>
+            <div class="reel" id="reel-3" aria-label="Reel 3">?</div>
         </section>
 
-        <section class="paytable">
+        <section class="paytable" aria-label="Paytable">
             <h2 class="neon-text-small">PAYTABLE (3-OF-A-KIND)</h2>
             <div class="paytable-grid" id="paytable-grid">
-                <!-- Symbols and payouts will be shown here -->
                 <div class="pay-row"><span>7️⃣ Seven</span> <span>5000x</span></div>
                 <div class="pay-row"><span>🍫 Bar</span> <span>100x</span></div>
                 <div class="pay-row"><span>🍊 Orange</span> <span>30x</span></div>
@@ -45,25 +46,25 @@
         <section class="controls">
             <form id="bet-form">
                 <fieldset class="bet-options">
-                    <legend>Choose Bet</legend>
+                    <legend>Choose Bet Amount</legend>
                     <label>
-                        <input type="radio" name="bet" value="1" checked>
-                        <span>$1</span>
+                        <input type="radio" name="bet" value="1" checked aria-label="Bet $1">
+                        <span aria-hidden="true">$1</span>
                     </label>
                     <label>
-                        <input type="radio" name="bet" value="5">
-                        <span>$5</span>
+                        <input type="radio" name="bet" value="5" aria-label="Bet $5">
+                        <span aria-hidden="true">$5</span>
                     </label>
                     <label>
-                        <input type="radio" name="bet" value="10">
-                        <span>$10</span>
+                        <input type="radio" name="bet" value="10" aria-label="Bet $10">
+                        <span aria-hidden="true">$10</span>
                     </label>
                 </fieldset>
                 <div class="actions">
-                    <button type="button" id="max-bet-button" class="spin-btn max-btn">MAX BET</button>
-                    <button type="button" id="spin-button" class="spin-btn">SPIN</button>
+                    <button type="button" id="max-bet-button" class="spin-btn max-btn" aria-label="Bet maximum amount and spin">MAX BET</button>
+                    <button type="button" id="spin-button" class="spin-btn" aria-label="Spin the reels">SPIN</button>
                 </div>
-                <button type="button" id="reset-button" class="spin-btn hidden">RESET GAME</button>
+                <button type="button" id="reset-button" class="spin-btn hidden" aria-label="Reset the game and balance">RESET GAME</button>
             </form>
         </section>
     </main>
