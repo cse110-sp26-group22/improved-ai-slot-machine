@@ -18,11 +18,15 @@ const SYMBOLS = [
 /** @type {number} */
 let balance = 100;
 
+/** @type {number} */
+let winStreak = 0;
+
 /** @type {boolean} */
 let isSpinning = false;
 
 // DOM Elements
 const balanceDisplay = document.getElementById('balance-amount');
+const streakDisplay = document.getElementById('win-streak');
 const statusMessage = document.getElementById('status-message');
 const reels = [
     document.getElementById('reel-1'),
@@ -137,13 +141,21 @@ function finalizeSpin(results, betAmount) {
     const winAmount = calculateWin(results, betAmount);
     
     if (winAmount > 0) {
+        winStreak++;
         updateBalance(winAmount);
-        updateStatusDisplay(`JACKPOT! You won $${winAmount}!`, true);
+        
+        let message = `JACKPOT! You won $${winAmount}!`;
+        if (winStreak >= 3) {
+            message = `🔥 ${winStreak} WINS IN A ROW! 🔥 $${winAmount} WON!`;
+        }
+        updateStatusDisplay(message, true);
         reels.forEach(reel => reel.classList.add('win-glow'));
     } else {
+        winStreak = 0;
         updateStatusDisplay('Better luck next time!', false);
     }
 
+    updateStreakDisplay();
     isSpinning = false;
     spinButton.disabled = false;
 
@@ -161,7 +173,9 @@ function finalizeSpin(results, betAmount) {
  */
 function resetGame() {
     balance = 100;
+    winStreak = 0;
     updateBalanceDisplay();
+    updateStreakDisplay();
     updateStatusDisplay('Good luck!', false);
     
     reels.forEach(reel => {
@@ -172,6 +186,14 @@ function resetGame() {
     spinButton.classList.remove('hidden');
     resetButton.classList.add('hidden');
     spinButton.disabled = false;
+}
+
+/**
+ * Updates the win streak display in the DOM.
+ * @returns {void}
+ */
+function updateStreakDisplay() {
+    streakDisplay.textContent = winStreak;
 }
 
 /**

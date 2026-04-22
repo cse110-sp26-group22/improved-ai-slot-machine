@@ -53,10 +53,28 @@ header h1 {
     border: 1px solid var(--neon-cyan);
 }
 
+.balance-info {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 0.8rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
 .balance-display {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: var(--neon-cyan);
-    margin-bottom: 0.5rem;
+}
+
+.streak-display {
+    font-size: 1rem;
+    color: var(--neon-magenta);
+    text-shadow: 0 0 5px var(--neon-magenta);
+    border: 1px solid var(--neon-magenta);
+    padding: 0.2rem 0.8rem;
+    border-radius: 20px;
+    background: rgba(255, 0, 255, 0.1);
 }
 
 .status-message {
