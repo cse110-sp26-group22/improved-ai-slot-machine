@@ -121,19 +121,20 @@ header h1 {
 }
 
 .symbol {
-    height: 100%; /* Relative to reel height */
+    height: 100%;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: clamp(2rem, 8vw, 4.5rem);
     user-select: none;
+    line-height: 1; /* Reset line height for better centering */
+    padding-top: 5px; /* Visual compensation for emoji rendering offset */
 }
 
 /* Adjusting symbol height dynamically */
 .reel .symbol {
-    height: calc(100% / 1); /* This will be handled by JS or CSS aspect ratio */
-    aspect-ratio: 1/1;
+    height: 100%;
     min-height: 100%;
 }
 
@@ -252,6 +253,11 @@ header h1 {
         grid-template-columns: 1fr;
         grid-template-rows: auto auto auto;
         gap: 15px;
+        justify-items: center; /* Center children horizontally in the grid */
+    }
+
+    .spin-btn {
+        justify-self: center;
     }
 
     .audio-controls {

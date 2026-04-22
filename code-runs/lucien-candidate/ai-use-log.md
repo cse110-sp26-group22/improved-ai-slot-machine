@@ -40,3 +40,10 @@ Prompt: Now, improve the visuals, make the website responsive, create layouts fo
 Response: Gemini created 3 layouts for the slot machine: Desktop, Portrait (Mobile), Landscape (Mobile).
 
 Observations: The slot machine now can dynamically change its layout base on the users' device asepect ratio. However, there are some errors in displaying, The elements displayed in the center of the slot machine are slightly misaligned.
+
+### Log 6:
+Prompt: Good, but there are a couple bugs in the program: 1. In the portrait layout, the spin button is not centered. 2. the elements in the display panel in the slot machine are slightly misaligned, they are a bit above the horizontal line
+
+Response: Gemini successfully fixed the 1st problem.
+
+Observation: The machine display is totally incorrect now, the gap between each element's top and bottom are smaller, the elements are still misaligned.
