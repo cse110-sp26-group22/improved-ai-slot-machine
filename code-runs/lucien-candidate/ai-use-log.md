@@ -33,3 +33,10 @@ Prompt: Add a test function in slot-machine-app\test\test.js, use this to test t
 Response: Gemini added a test.js. It ran it using node.js and figured out that the RTP is significantly lower than required, and updated the specific values multiple times and guarantee that the new value matches our requirements.
 
 Observations: Now the slot machine is much easier to gain back credits then before.
+
+### Log 5:
+Prompt: Now, improve the visuals, make the website responsive, create layouts for devices with different aspect ratios
+
+Response: Gemini created 3 layouts for the slot machine: Desktop, Portrait (Mobile), Landscape (Mobile).
+
+Observations: The slot machine now can dynamically change its layout base on the users' device asepect ratio. However, there are some errors in displaying, The elements displayed in the center of the slot machine are slightly misaligned.
