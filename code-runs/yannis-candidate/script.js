@@ -34,27 +34,48 @@ const reels = [
     document.getElementById('reel-3')
 ];
 const spinButton = document.getElementById('spin-button');
+const maxBetButton = document.getElementById('max-bet-button');
 const resetButton = document.getElementById('reset-button');
 const betForm = document.getElementById('bet-form');
 
 /**
- * Initializes the game.
+ * Initializes the game by setting up event listeners and UI.
  * @returns {void}
  */
 function init() {
     spinButton.addEventListener('click', handleSpin);
+    maxBetButton.addEventListener('click', handleMaxBet);
     resetButton.addEventListener('click', resetGame);
-    updateBalanceDisplay();
+    updateUI();
 }
 
 /**
- * Handles the spin button click event.
+ * Automatically selects the maximum bet ($10) and triggers a spin.
+ * @returns {void}
+ */
+function handleMaxBet() {
+    if (isSpinning) return;
+    
+    const maxBetInput = betForm.querySelector('input[value="10"]');
+    if (maxBetInput) {
+        maxBetInput.checked = true;
+    }
+    handleSpin();
+}
+
+/**
+ * Handles the spin button click event with validation.
  * @returns {void}
  */
 function handleSpin() {
     if (isSpinning) return;
 
     const betAmount = getSelectedBet();
+
+    if (isNaN(betAmount) || betAmount <= 0) {
+        updateStatusDisplay('Invalid bet amount!', false);
+        return;
+    }
 
     if (balance < betAmount) {
         updateStatusDisplay('Insufficient funds!', false);
@@ -66,69 +87,63 @@ function handleSpin() {
 
 /**
  * Gets the currently selected bet amount from the radio buttons.
- * @returns {number} The bet amount ($1, $5, or $10).
+ * @returns {number} The bet amount, or NaN if invalid.
  */
 function getSelectedBet() {
     const formData = new FormData(betForm);
-    return parseInt(formData.get('bet'), 10);
+    const value = formData.get('bet');
+    return value ? parseInt(value, 10) : NaN;
 }
 
 /**
  * Starts the reel spinning process with staggered stops and near-miss logic.
- * @param {number} betAmount - The amount wagered.
+ * @param {number} betAmount - The validated amount wagered.
  * @returns {void}
  */
 function startSpin(betAmount) {
     isSpinning = true;
-    spinButton.disabled = true;
+    toggleControls(true);
     updateBalance(-betAmount);
     updateStatusDisplay('Good luck...', false);
 
-    // Clear previous win effects
     reels.forEach(reel => {
         reel.classList.remove('win-glow');
         reel.classList.add('spinning');
     });
 
-    // Determine results immediately (pre-calculation for near-miss)
-    let results = [
-        getRandomSymbol(),
-        getRandomSymbol(),
-        getRandomSymbol()
-    ];
+    const results = generateResults(betAmount);
 
-    const actualWin = calculateWin(results, betAmount);
-
-    // Near-miss mechanic (30% chance on losses)
-    if (actualWin === 0 && Math.random() < 0.3) {
-        const jackpotSymbol = SYMBOLS.find(s => s.name === 'Seven');
-        const otherSymbols = SYMBOLS.filter(s => s.name !== 'Seven');
-        
-        // Pick 2 reels for jackpot symbol, 1 for something else
-        const jackpotIndices = [0, 1, 2].sort(() => 0.5 - Math.random()).slice(0, 2);
-        
-        results = results.map((res, i) => {
-            if (jackpotIndices.includes(i)) {
-                return jackpotSymbol;
-            } else {
-                // Ensure the third reel is NOT a Seven
-                return otherSymbols[Math.floor(Math.random() * otherSymbols.length)];
-            }
-        });
-    }
-
-    // Staggered reel stops
     reels.forEach((reel, index) => {
         setTimeout(() => {
             reel.classList.remove('spinning');
             reel.textContent = results[index].emoji;
             
-            // If it's the last reel, finalize the result
             if (index === reels.length - 1) {
                 finalizeSpin(results, betAmount);
             }
-        }, 1000 + (index * 300)); // 1000ms, 1300ms, 1600ms
+        }, 1000 + (index * 300));
     });
+}
+
+/**
+ * Generates the outcome of a spin, applying near-miss logic if applicable.
+ * @param {number} betAmount - The amount wagered.
+ * @returns {SymbolConfig[]} The array of resulting symbols.
+ */
+function generateResults(betAmount) {
+    let results = [getRandomSymbol(), getRandomSymbol(), getRandomSymbol()];
+    const winAmount = calculateWin(results, betAmount);
+
+    if (winAmount === 0 && Math.random() < 0.3) {
+        const jackpotSymbol = SYMBOLS.find(s => s.name === 'Seven');
+        const otherSymbols = SYMBOLS.filter(s => s.name !== 'Seven');
+        const jackpotIndices = [0, 1, 2].sort(() => 0.5 - Math.random()).slice(0, 2);
+        
+        results = results.map((res, i) => 
+            jackpotIndices.includes(i) ? jackpotSymbol : otherSymbols[Math.floor(Math.random() * otherSymbols.length)]
+        );
+    }
+    return results;
 }
 
 /**
@@ -155,27 +170,38 @@ function finalizeSpin(results, betAmount) {
         updateStatusDisplay('Better luck next time!', false);
     }
 
-    updateStreakDisplay();
     isSpinning = false;
-    spinButton.disabled = false;
+    toggleControls(false);
+    updateUI();
 
-    // Check for game over
     if (balance <= 0) {
         updateStatusDisplay("You're out of money!", false);
         spinButton.classList.add('hidden');
+        maxBetButton.classList.add('hidden');
         resetButton.classList.remove('hidden');
     }
 }
 
 /**
- * Resets the game state.
+ * Toggles the interactivity of game controls.
+ * @param {boolean} disabled - Whether to disable the controls.
+ * @returns {void}
+ */
+function toggleControls(disabled) {
+    spinButton.disabled = disabled;
+    maxBetButton.disabled = disabled;
+    const radioButtons = betForm.querySelectorAll('input[type="radio"]');
+    radioButtons.forEach(radio => radio.disabled = disabled);
+}
+
+/**
+ * Resets the game to its initial state.
  * @returns {void}
  */
 function resetGame() {
     balance = 100;
     winStreak = 0;
-    updateBalanceDisplay();
-    updateStreakDisplay();
+    updateUI();
     updateStatusDisplay('Good luck!', false);
     
     reels.forEach(reel => {
@@ -184,16 +210,9 @@ function resetGame() {
     });
 
     spinButton.classList.remove('hidden');
+    maxBetButton.classList.remove('hidden');
     resetButton.classList.add('hidden');
-    spinButton.disabled = false;
-}
-
-/**
- * Updates the win streak display in the DOM.
- * @returns {void}
- */
-function updateStreakDisplay() {
-    streakDisplay.textContent = winStreak;
+    toggleControls(false);
 }
 
 /**
@@ -205,13 +224,10 @@ function getRandomSymbol() {
     let randomNum = Math.random() * totalWeight;
 
     for (const symbol of SYMBOLS) {
-        if (randomNum < symbol.weight) {
-            return symbol;
-        }
+        if (randomNum < symbol.weight) return symbol;
         randomNum -= symbol.weight;
     }
-
-    return SYMBOLS[0]; // Fallback
+    return SYMBOLS[0];
 }
 
 /**
@@ -221,32 +237,29 @@ function getRandomSymbol() {
  * @returns {number} The total win amount.
  */
 function calculateWin(results, betAmount) {
-    const firstSymbol = results[0].name;
-    const isMatch = results.every(s => s.name === firstSymbol);
-
-    if (isMatch) {
-        return betAmount * results[0].multiplier;
-    }
-
-    return 0;
+    const isMatch = results.every(s => s.name === results[0].name);
+    return isMatch ? betAmount * results[0].multiplier : 0;
 }
 
 /**
- * Updates the game balance.
+ * Updates the game balance with validation.
  * @param {number} amount - The amount to add or subtract.
  * @returns {void}
  */
 function updateBalance(amount) {
+    if (isNaN(amount)) return;
     balance += amount;
-    updateBalanceDisplay();
+    if (isNaN(balance)) balance = 0;
+    updateUI();
 }
 
 /**
- * Updates the balance display in the DOM.
+ * Refreshes the balance and streak displays in the DOM.
  * @returns {void}
  */
-function updateBalanceDisplay() {
+function updateUI() {
     balanceDisplay.textContent = `$${balance}`;
+    streakDisplay.textContent = winStreak;
 }
 
 /**
