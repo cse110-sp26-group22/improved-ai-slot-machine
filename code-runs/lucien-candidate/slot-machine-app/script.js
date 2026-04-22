@@ -24,6 +24,11 @@ const winMessage = document.getElementById('win-message');
 const spinButton = document.getElementById('spin-button');
 const decreaseBetBtn = document.getElementById('decrease-bet');
 const increaseBetBtn = document.getElementById('increase-bet');
+const infoBtn = document.getElementById('info-btn');
+const modal = document.getElementById('pay-table-modal');
+const closeBtn = document.querySelector('.close-btn');
+const payGrid = document.getElementById('pay-grid');
+
 const reelStrips = [
     document.querySelector('#reel-1 .reel-strip'),
     document.querySelector('#reel-2 .reel-strip'),
@@ -34,7 +39,40 @@ const reelStrips = [
 function init() {
     updateUI();
     setupReels();
+    populatePayTable();
 }
+
+function populatePayTable() {
+    payGrid.innerHTML = '';
+    // Sort by payout descending for better presentation
+    const sortedSymbols = [...SYMBOLS].sort((a, b) => b.payout - a.payout);
+    
+    sortedSymbols.forEach(symbol => {
+        const item = document.createElement('div');
+        item.className = 'pay-item';
+        item.innerHTML = `
+            <span class="symbol-icon">${symbol.icon}</span>
+            <span class="payout-value">${symbol.payout}</span>
+        `;
+        payGrid.appendChild(item);
+    });
+}
+
+// Modal Logic
+infoBtn.onclick = () => {
+    modal.style.display = "block";
+    if (typeof playClickSound === 'function') playClickSound();
+};
+
+closeBtn.onclick = () => {
+    modal.style.display = "none";
+};
+
+window.onclick = (event) => {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+};
 
 function updateUI() {
     const dollars = (balance / 100).toFixed(2);

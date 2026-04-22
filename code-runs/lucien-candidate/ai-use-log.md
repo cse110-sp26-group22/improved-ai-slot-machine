@@ -54,3 +54,11 @@ Prompt: The first problem has been solved, however, for the second problem, it i
 Response: Gemini successfully fixed problem, now the the reel displays correctly.
 
 Observation: the slot machine looks way better now.
+
+
+### Log 8:
+Prompt: Add the pay table
+
+Response: Gemini modified index.html, script.js and style.css and added a paytable button.
+
+Observation: the paytable page is not properly polished. The vertical scroll bar appears when clicking the paytable.
