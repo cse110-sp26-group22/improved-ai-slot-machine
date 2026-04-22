@@ -2,7 +2,7 @@
 
 ## Part 1: Prototype generation
 
-AI Use #1:
+### AI Use #1:
 
 
 **Prompt:** (Specific, but with some vagueness)
@@ -37,7 +37,7 @@ Use bold, colorful slot symbols (fruits, bars, sevens, etc.) with win splash eff
 
 ## Part 2: Case-by-Case Functionality Refinement
 
-AI Use #2:
+### AI Use #2:
 **Prompt** (Specifically targets what needs to be improved)
 
 Update the visual design to use brighter, more vibrant colors with a strong cyberpunk, neon 8-bit aesthetic, and incorporate bolder, more stylized fonts that match an arcade theme. Add glow effects, neon highlights, and greater visual depth, and improve the layout so key information such as credits and winnings is clearly visible at all times.
@@ -62,7 +62,7 @@ Add a clear display for net winnings or balance changes. The interface should sh
   * I will have to be very specific with how credits must be updated 
 
 
-AI Use #3: 
+### AI Use #3: 
 **Prompt**: Add more moving colors and visuals and animations in the background. Instead of the feature that shows what the last result was, replace this with a feature that keeps a running score of how much money the user wins in all their spins. Furthermore, vary the different types of images that show up on the slots and the different types of wins. 
 
 
@@ -76,7 +76,7 @@ Here is the exact functionality that must exist for credit updates on a win or a
   *  it never properly updates the current number of credits with the winnings, which is a major problem because in essence, the user isn't visibly winning anything at all, which makes it harder for them to remain engaged
 
 
-AI Use #4:
+### AI Use #4:
 
 **Prompt**: Fix the update of credits won. After the number of credits won is shown to the user, add that amount immediately both to the current credits count and the total winnings counter, but make sure this adding only executes directly after the number of credits won is shown to the user.
 
