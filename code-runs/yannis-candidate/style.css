@@ -98,10 +98,25 @@ header h1 {
     animation: blur-spin 0.2s infinite linear;
 }
 
+.win-glow {
+    animation: win-flash 0.5s ease-in-out infinite;
+    color: var(--neon-gold) !important;
+    border-color: var(--neon-gold) !important;
+}
+
 @keyframes blur-spin {
     0% { filter: blur(0px); transform: translateY(0); }
     50% { filter: blur(4px); transform: translateY(10px); }
     100% { filter: blur(0px); transform: translateY(0); }
+}
+
+@keyframes win-flash {
+    0%, 100% { box-shadow: 0 0 15px var(--neon-gold), inset 0 0 15px var(--neon-gold); text-shadow: 0 0 10px var(--neon-gold); }
+    50% { box-shadow: 0 0 35px var(--neon-gold), inset 0 0 35px var(--neon-gold); text-shadow: 0 0 25px #fff; border-color: #fff; }
+}
+
+.hidden {
+    display: none !important;
 }
 
 .controls {

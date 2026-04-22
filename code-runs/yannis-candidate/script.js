@@ -30,6 +30,7 @@ const reels = [
     document.getElementById('reel-3')
 ];
 const spinButton = document.getElementById('spin-button');
+const resetButton = document.getElementById('reset-button');
 const betForm = document.getElementById('bet-form');
 
 /**
@@ -38,6 +39,7 @@ const betForm = document.getElementById('bet-form');
  */
 function init() {
     spinButton.addEventListener('click', handleSpin);
+    resetButton.addEventListener('click', resetGame);
     updateBalanceDisplay();
 }
 
@@ -68,7 +70,7 @@ function getSelectedBet() {
 }
 
 /**
- * Starts the reel spinning process.
+ * Starts the reel spinning process with staggered stops and near-miss logic.
  * @param {number} betAmount - The amount wagered.
  * @returns {void}
  */
@@ -76,45 +78,99 @@ function startSpin(betAmount) {
     isSpinning = true;
     spinButton.disabled = true;
     updateBalance(-betAmount);
-    updateStatusDisplay('Spinning...', false);
+    updateStatusDisplay('Good luck...', false);
 
-    // Add spinning class for animation
-    reels.forEach(reel => reel.classList.add('spinning'));
+    // Clear previous win effects
+    reels.forEach(reel => {
+        reel.classList.remove('win-glow');
+        reel.classList.add('spinning');
+    });
 
-    // Simulate spin delay
-    setTimeout(() => {
-        stopSpin(betAmount);
-    }, 1500);
-}
-
-/**
- * Stops the reels and calculates the result.
- * @param {number} betAmount - The amount wagered.
- * @returns {void}
- */
-function stopSpin(betAmount) {
-    const results = [
+    // Determine results immediately (pre-calculation for near-miss)
+    let results = [
         getRandomSymbol(),
         getRandomSymbol(),
         getRandomSymbol()
     ];
 
-    // Update UI with results
-    reels.forEach((reel, index) => {
-        reel.classList.remove('spinning');
-        reel.textContent = results[index].emoji;
-    });
+    const actualWin = calculateWin(results, betAmount);
 
+    // Near-miss mechanic (30% chance on losses)
+    if (actualWin === 0 && Math.random() < 0.3) {
+        const jackpotSymbol = SYMBOLS.find(s => s.name === 'Seven');
+        const otherSymbols = SYMBOLS.filter(s => s.name !== 'Seven');
+        
+        // Pick 2 reels for jackpot symbol, 1 for something else
+        const jackpotIndices = [0, 1, 2].sort(() => 0.5 - Math.random()).slice(0, 2);
+        
+        results = results.map((res, i) => {
+            if (jackpotIndices.includes(i)) {
+                return jackpotSymbol;
+            } else {
+                // Ensure the third reel is NOT a Seven
+                return otherSymbols[Math.floor(Math.random() * otherSymbols.length)];
+            }
+        });
+    }
+
+    // Staggered reel stops
+    reels.forEach((reel, index) => {
+        setTimeout(() => {
+            reel.classList.remove('spinning');
+            reel.textContent = results[index].emoji;
+            
+            // If it's the last reel, finalize the result
+            if (index === reels.length - 1) {
+                finalizeSpin(results, betAmount);
+            }
+        }, 1000 + (index * 300)); // 1000ms, 1300ms, 1600ms
+    });
+}
+
+/**
+ * Finalizes the spin result, updates balance, and checks for game over.
+ * @param {SymbolConfig[]} results - The final reel symbols.
+ * @param {number} betAmount - The amount wagered.
+ * @returns {void}
+ */
+function finalizeSpin(results, betAmount) {
     const winAmount = calculateWin(results, betAmount);
     
     if (winAmount > 0) {
         updateBalance(winAmount);
         updateStatusDisplay(`JACKPOT! You won $${winAmount}!`, true);
+        reels.forEach(reel => reel.classList.add('win-glow'));
     } else {
         updateStatusDisplay('Better luck next time!', false);
     }
 
     isSpinning = false;
+    spinButton.disabled = false;
+
+    // Check for game over
+    if (balance <= 0) {
+        updateStatusDisplay("You're out of money!", false);
+        spinButton.classList.add('hidden');
+        resetButton.classList.remove('hidden');
+    }
+}
+
+/**
+ * Resets the game state.
+ * @returns {void}
+ */
+function resetGame() {
+    balance = 100;
+    updateBalanceDisplay();
+    updateStatusDisplay('Good luck!', false);
+    
+    reels.forEach(reel => {
+        reel.textContent = '?';
+        reel.classList.remove('win-glow');
+    });
+
+    spinButton.classList.remove('hidden');
+    resetButton.classList.add('hidden');
     spinButton.disabled = false;
 }
 
