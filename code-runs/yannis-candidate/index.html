@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vegas Neon Slots</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="game-container">
+        <header>
+            <h1 class="neon-text">VEGAS SLOTS</h1>
+        </header>
+
+        <section class="display-panel">
+            <div class="balance-display">
+                Balance: <span id="balance-amount">$100</span>
+            </div>
+            <div id="status-message" class="status-message">Good luck!</div>
+        </section>
+
+        <section class="slot-machine">
+            <div class="reel" id="reel-1">?</div>
+            <div class="reel" id="reel-2">?</div>
+            <div class="reel" id="reel-3">?</div>
+        </section>
+
+        <section class="controls">
+            <form id="bet-form">
+                <fieldset class="bet-options">
+                    <legend>Choose Bet</legend>
+                    <label>
+                        <input type="radio" name="bet" value="1" checked>
+                        <span>$1</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="bet" value="5">
+                        <span>$5</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="bet" value="10">
+                        <span>$10</span>
+                    </label>
+                </fieldset>
+                <button type="button" id="spin-button" class="spin-btn">SPIN</button>
+            </form>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
