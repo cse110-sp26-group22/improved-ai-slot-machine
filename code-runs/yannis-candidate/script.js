@@ -6,6 +6,16 @@
  * @property {number} multiplier - The payout multiplier for a 3-of-a-kind match.
  */
 
+const GAME_CONFIG = {
+    INITIAL_BALANCE: 100,
+    MAX_BET: 10,
+    NEAR_MISS_PROBABILITY: 0.3,
+    BASE_SPIN_DELAY_MS: 1000,
+    STAGGER_DELAY_MS: 300,
+    WIN_STREAK_SPECIAL_THRESHOLD: 3,
+    JACKPOT_SYMBOL_NAME: 'Seven'
+};
+
 /** @type {SymbolConfig[]} */
 const SYMBOLS = [
     { name: 'Cherry', emoji: '🍒', weight: 45, multiplier: 5 },
@@ -16,7 +26,7 @@ const SYMBOLS = [
 ];
 
 /** @type {number} */
-let balance = 100;
+let balance = GAME_CONFIG.INITIAL_BALANCE;
 
 /** @type {number} */
 let winStreak = 0;
@@ -50,13 +60,13 @@ function init() {
 }
 
 /**
- * Automatically selects the maximum bet ($10) and triggers a spin.
+ * Automatically selects the maximum bet and triggers a spin.
  * @returns {void}
  */
 function handleMaxBet() {
     if (isSpinning) return;
     
-    const maxBetInput = betForm.querySelector('input[value="10"]');
+    const maxBetInput = betForm.querySelector(`input[value="${GAME_CONFIG.MAX_BET}"]`);
     if (maxBetInput) {
         maxBetInput.checked = true;
     }
@@ -118,10 +128,11 @@ function startSpin(betAmount) {
             reel.classList.remove('spinning');
             reel.textContent = results[index].emoji;
             
-            if (index === reels.length - 1) {
+            const isLastReel = index === reels.length - 1;
+            if (isLastReel) {
                 finalizeSpin(results, betAmount);
             }
-        }, 1000 + (index * 300));
+        }, GAME_CONFIG.BASE_SPIN_DELAY_MS + (index * GAME_CONFIG.STAGGER_DELAY_MS));
     });
 }
 
@@ -134,13 +145,18 @@ function generateResults(betAmount) {
     let results = [getRandomSymbol(), getRandomSymbol(), getRandomSymbol()];
     const winAmount = calculateWin(results, betAmount);
 
-    if (winAmount === 0 && Math.random() < 0.3) {
-        const jackpotSymbol = SYMBOLS.find(s => s.name === 'Seven');
-        const otherSymbols = SYMBOLS.filter(s => s.name !== 'Seven');
+    const shouldTriggerNearMiss = winAmount === 0 && Math.random() < GAME_CONFIG.NEAR_MISS_PROBABILITY;
+    if (shouldTriggerNearMiss) {
+        const jackpotSymbol = SYMBOLS.find(s => s.name === GAME_CONFIG.JACKPOT_SYMBOL_NAME);
+        const otherSymbols = SYMBOLS.filter(s => s.name !== GAME_CONFIG.JACKPOT_SYMBOL_NAME);
+        
+        // Randomly choose 2 reels to show the jackpot symbol
         const jackpotIndices = [0, 1, 2].sort(() => 0.5 - Math.random()).slice(0, 2);
         
         results = results.map((res, i) => 
-            jackpotIndices.includes(i) ? jackpotSymbol : otherSymbols[Math.floor(Math.random() * otherSymbols.length)]
+            jackpotIndices.includes(i) 
+                ? jackpotSymbol 
+                : otherSymbols[Math.floor(Math.random() * otherSymbols.length)]
         );
     }
     return results;
@@ -156,24 +172,49 @@ function finalizeSpin(results, betAmount) {
     const winAmount = calculateWin(results, betAmount);
     
     if (winAmount > 0) {
-        winStreak++;
-        updateBalance(winAmount);
-        
-        let message = `JACKPOT! You won $${winAmount}!`;
-        if (winStreak >= 3) {
-            message = `🔥 ${winStreak} WINS IN A ROW! 🔥 $${winAmount} WON!`;
-        }
-        updateStatusDisplay(message, true);
-        reels.forEach(reel => reel.classList.add('win-glow'));
+        handleWin(winAmount);
     } else {
-        winStreak = 0;
-        updateStatusDisplay('Better luck next time!', false);
+        handleLoss();
     }
 
     isSpinning = false;
     toggleControls(false);
     updateUI();
 
+    checkGameOver();
+}
+
+/**
+ * Handles the logic when the player wins.
+ * @param {number} winAmount - The amount won.
+ * @returns {void}
+ */
+function handleWin(winAmount) {
+    winStreak++;
+    updateBalance(winAmount);
+    
+    let message = `JACKPOT! You won $${winAmount}!`;
+    if (winStreak >= GAME_CONFIG.WIN_STREAK_SPECIAL_THRESHOLD) {
+        message = `🔥 ${winStreak} WINS IN A ROW! 🔥 $${winAmount} WON!`;
+    }
+    updateStatusDisplay(message, true);
+    reels.forEach(reel => reel.classList.add('win-glow'));
+}
+
+/**
+ * Handles the logic when the player loses.
+ * @returns {void}
+ */
+function handleLoss() {
+    winStreak = 0;
+    updateStatusDisplay('Better luck next time!', false);
+}
+
+/**
+ * Checks if the player is out of funds and updates UI accordingly.
+ * @returns {void}
+ */
+function checkGameOver() {
     if (balance <= 0) {
         updateStatusDisplay("You're out of money!", false);
         spinButton.classList.add('hidden');
@@ -199,7 +240,7 @@ function toggleControls(disabled) {
  * @returns {void}
  */
 function resetGame() {
-    balance = 100;
+    balance = GAME_CONFIG.INITIAL_BALANCE;
     winStreak = 0;
     updateUI();
     updateStatusDisplay('Good luck!', false);
@@ -237,7 +278,8 @@ function getRandomSymbol() {
  * @returns {number} The total win amount.
  */
 function calculateWin(results, betAmount) {
-    const isMatch = results.every(s => s.name === results[0].name);
+    const firstSymbolName = results[0].name;
+    const isMatch = results.every(s => s.name === firstSymbolName);
     return isMatch ? betAmount * results[0].multiplier : 0;
 }
 
@@ -247,8 +289,9 @@ function calculateWin(results, betAmount) {
  * @returns {void}
  */
 function updateBalance(amount) {
-    if (isNaN(amount)) return;
+    if (typeof amount !== 'number' || isNaN(amount)) return;
     balance += amount;
+    // Ensure balance doesn't stay as NaN if something went wrong
     if (isNaN(balance)) balance = 0;
     updateUI();
 }
@@ -275,3 +318,4 @@ function updateStatusDisplay(message, isWin) {
 
 // Initialize the game on load
 document.addEventListener('DOMContentLoaded', init);
+
