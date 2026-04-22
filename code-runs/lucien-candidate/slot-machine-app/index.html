@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎰 1-Cent Slot Machine</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <header>
+            <h1>LUCKY SLOTS</h1>
+            <div class="balance-container">
+                <span class="label">BALANCE</span>
+                <span id="balance-display">$10.00</span>
+            </div>
+        </header>
+
+        <main class="slot-machine">
+            <div class="reels-container">
+                <div class="reel" id="reel-1">
+                    <div class="reel-strip"></div>
+                </div>
+                <div class="reel" id="reel-2">
+                    <div class="reel-strip"></div>
+                </div>
+                <div class="reel" id="reel-3">
+                    <div class="reel-strip"></div>
+                </div>
+                <div class="payline"></div>
+            </div>
+
+            <div class="win-display" id="win-display">
+                <span id="win-message">SPIN TO WIN!</span>
+            </div>
+        </main>
+
+        <section class="controls">
+            <div class="bet-controls">
+                <button id="decrease-bet" class="control-btn">-</button>
+                <div class="bet-info">
+                    <span class="label">BET</span>
+                    <span id="bet-display">25</span>
+                </div>
+                <button id="increase-bet" class="control-btn">+</button>
+            </div>
+            
+            <button id="spin-button" class="spin-btn">SPIN</button>
+
+            <div class="audio-controls">
+                <button id="mute-toggle" class="icon-btn">🔊</button>
+            </div>
+        </section>
+    </div>
+
+    <script src="audio.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
