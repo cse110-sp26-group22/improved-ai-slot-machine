@@ -97,4 +97,22 @@ The look of the webapp has worsened.
 
  The look is back to normal. Seemes to have fixed the issue. I will attemps to make the look more striking.
 
- **Prompt:** Make the background striped or wavy, use multiple shades of green and some colorful spots inspired by flowers.    
+ **Prompt:** Make the background striped or wavy, use multiple shades of green and some colorful spots inspired by flowers.
+
+ I am pretty satisfied at this point, but will continue to see what more I can change.
+
+ **Prompt:** When a win happens, add a big lion to the splash screen and a roaring sound    
+
+ **Prompt:**Make sure that the splash graphic disappears after a few seconds 
+
+ **Prompt:**Add a small splash screen with a bird and a tweety noise when small wins happen. When big wins happen, make coins and confetti rain down on the screen
+
+ **Prompt:**Make leaves rain down during a small win. Make the animal on the small win splash screen random.    
+
+ **Prompt:**Bring back the big splash with a roaring lion for the big wins (over or at 100 credits won)  
+
+ Visually I am more satisfied now. But the winning mechanic doesn't seem to work properly, even when symbols align it doesn't trigger a win.
+
+ **Prompt:**Make sure that the win triggers correctly. Read carefully and make sure that when same symbols align a win happens  
+
+ Since I asked it to change the mechanic, it is now running tests again and adjusting the RTP 

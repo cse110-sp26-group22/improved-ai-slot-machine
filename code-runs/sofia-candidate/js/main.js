@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 audio.playSfx('win');
             }
-            ui.showWin(results.totalWin, results);
+            ui.showWin(results.totalWin, results, audio);
         }
     });
 

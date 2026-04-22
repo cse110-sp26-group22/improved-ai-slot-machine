@@ -1,12 +1,12 @@
 import { getWeightedRandom } from './rng.js';
 
 export const SYMBOLS = [
-    { id: 'JACKPOT', char: '🦁', weight: 32, payout: 50 },
-    { id: 'MONKEY', char: '🐒', weight: 42, payout: 20 },
-    { id: 'TOUCAN', char: '🦜', weight: 52, payout: 10 },
-    { id: 'FLOWER', char: '🌺', weight: 62, payout: 5 },
-    { id: 'LEAF', char: '🍃', weight: 72, payout: 2 },
-    { id: 'EMPTY', char: '🌵', weight: 25, payout: 0 }
+    { id: 'JACKPOT', char: '🦁', weight: 35, payout: 50 },
+    { id: 'MONKEY', char: '🐒', weight: 45, payout: 20 },
+    { id: 'TOUCAN', char: '🦜', weight: 55, payout: 10 },
+    { id: 'FLOWER', char: '🌺', weight: 65, payout: 5 },
+    { id: 'LEAF', char: '🍃', weight: 75, payout: 2 },
+    { id: 'EMPTY', char: '🌵', weight: 20, payout: 0 }
 ];
 
 export const VALID_BETS = [25, 50, 75, 100, 200, 500, 1000, 2000];
@@ -78,19 +78,33 @@ export class GameState {
             const s2 = reels[1][row];
             const s3 = reels[2][row];
             
-            const symbolDef = SYMBOLS.find(s => s.id === s1);
+            let winningSymbolId = null;
             let multiplier = 0;
 
             if (s1 === s2 && s2 === s3) {
-                multiplier = symbolDef.payout; // 3 of a kind
-            } else if (s1 === s2 || s2 === s3) {
-                multiplier = symbolDef.payout * 0.2; // 2 of a kind (adjacent)
+                // 3 of a kind
+                winningSymbolId = s1;
+                const symbolDef = SYMBOLS.find(s => s.id === winningSymbolId);
+                multiplier = symbolDef ? symbolDef.payout : 0;
+            } else if (s1 === s2) {
+                // 2 of a kind (left + center)
+                winningSymbolId = s1;
+                const symbolDef = SYMBOLS.find(s => s.id === winningSymbolId);
+                multiplier = symbolDef ? symbolDef.payout * 0.2 : 0;
+            } else if (s2 === s3) {
+                // 2 of a kind (center + right)
+                winningSymbolId = s2;
+                const symbolDef = SYMBOLS.find(s => s.id === winningSymbolId);
+                multiplier = symbolDef ? symbolDef.payout * 0.2 : 0;
             }
             
+            // Ensure EMPTY symbols don't trigger wins even if they align
+            if (winningSymbolId === 'EMPTY') multiplier = 0;
+
             if (multiplier > 0) {
                 const winAmount = Math.floor(multiplier * bet);
                 totalWin += winAmount;
-                winDetails.push({ line: lineName, amount: winAmount, symbol: s1 });
+                winDetails.push({ line: lineName, amount: winAmount, symbol: winningSymbolId });
             }
         };
 

@@ -17,6 +17,9 @@ export class UI {
         this.muteToggle = document.getElementById('mute-toggle');
         this.reels = document.querySelectorAll('.reel-symbols');
         this.errorToast = document.getElementById('error-message');
+        this.rainContainer = document.getElementById('rain-container');
+        this.smallWinOverlay = document.getElementById('small-win-overlay');
+        this.smallWinAmount = document.getElementById('small-win-amount');
         this.winOverlay = document.getElementById('win-overlay');
         this.winMessage = document.getElementById('win-message');
         this.winAmountDisplay = document.getElementById('win-amount');
@@ -50,6 +53,27 @@ export class UI {
         setTimeout(() => this.errorToast.classList.add('hidden'), 3000);
     }
 
+    triggerRain(type = 'big') {
+        const coinItems = ['🪙', '🎊', '✨', '💎'];
+        const leafItems = ['🍃', '🌿', '🌱', '🍂'];
+        const items = type === 'big' ? coinItems : leafItems;
+        const count = type === 'big' ? 50 : 25;
+        
+        for (let i = 0; i < count; i++) {
+            const el = document.createElement('div');
+            el.className = 'falling-item';
+            el.textContent = items[Math.floor(Math.random() * items.length)];
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.animationDuration = (Math.random() * 2 + (type === 'big' ? 1 : 2)) + 's';
+            el.style.animationDelay = (Math.random() * 2) + 's';
+            
+            this.rainContainer.appendChild(el);
+            
+            // Cleanup
+            setTimeout(() => el.remove(), 5000);
+        }
+    }
+
     async animateSpin(results) {
         const baseDuration = 1200; // Base time for the first reel
         const reelContainers = document.querySelectorAll('.reel');
@@ -57,6 +81,7 @@ export class UI {
         
         this.spinButton.disabled = true;
         this.winOverlay.classList.add('hidden');
+        this.smallWinOverlay.classList.add('hidden');
 
         const promises = Array.from(reelContainers).map((reel, i) => {
             return new Promise(resolve => {
@@ -106,21 +131,38 @@ export class UI {
         this.state.isSpinning = false;
     }
 
-    showWin(amount, details) {
+    showWin(amount, details, audioController) {
         if (amount <= 0) return;
 
-        this.winAmountDisplay.textContent = `+${amount.toLocaleString()}`;
-        
-        const multiplier = amount / this.state.currentBet;
-        if (multiplier >= 10) {
+        // Big win threshold: 100 credits or more
+        if (amount >= 100) {
+            // BIG WIN
+            this.winAmountDisplay.textContent = `+${amount.toLocaleString()}`;
             this.winMessage.textContent = "BIG WIN!";
             this.winMessage.style.color = "var(--color-accent)";
+            this.winOverlay.classList.remove('hidden');
+            if (audioController) audioController.playRoar();
+            this.triggerRain('big');
+            
+            setTimeout(() => {
+                this.winOverlay.classList.add('hidden');
+            }, 4000);
         } else {
-            this.winMessage.textContent = "WIN!";
-            this.winMessage.style.color = "white";
-        }
+            // SMALL WIN
+            const smallAnimals = ['🦜', '🐒', '🦋', '🦎', '🐿️', '🐸'];
+            const randomAnimal = smallAnimals[Math.floor(Math.random() * smallAnimals.length)];
+            const animalEl = this.smallWinOverlay.querySelector('.win-bird');
+            if (animalEl) animalEl.textContent = randomAnimal;
 
-        this.winOverlay.classList.remove('hidden');
+            this.smallWinAmount.textContent = `+${amount.toLocaleString()}`;
+            this.smallWinOverlay.classList.remove('hidden');
+            if (audioController) audioController.playSfx('tweet');
+            this.triggerRain('small');
+            
+            setTimeout(() => {
+                this.smallWinOverlay.classList.add('hidden');
+            }, 2500);
+        }
         
         // Highlight paylines (simplified for now)
         details.winDetails.forEach(detail => {
