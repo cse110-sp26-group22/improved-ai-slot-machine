@@ -6,4 +6,4 @@
 
 * As Clara, I want "Cascading Reels" (where winning symbols explode and new ones fall in) so that a single spin feels more dynamic and provides multiple visual rewards.
 
-* As Bob, I want a "Time-Out" notification after 15 minutes of play so that I can maintain a healthy balance and avoid losing track of time during a session.
+* As Bob, I want a "Time-Out" notification after 15 minutes of play so that I can maintain a healthy balance and avoid losing track of time during a session
