@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escape From the Underworld - Slot Machine</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=MedievalSharp&display=swap" rel="stylesheet">
+</head>
+<body class="underworld-theme">
+    <div id="lava-gradient"></div>
+    <div id="game-container">
+        <!-- Decoration: Columns -->
+        <div class="column left-col"></div>
+        <div class="column right-col"></div>
+
+        <!-- Left Section: Stats -->
+        <aside id="stats-panel" class="panel">
+            <h2>Mortal Stats</h2>
+            <div class="stat-item">Spins: <span id="stat-spins">0</span></div>
+            <div class="stat-item">Total Won: <span id="stat-won">0</span></div>
+            <div class="stat-item">Total Lost: <span id="stat-lost">0</span></div>
+            
+            <div id="symbol-stats-container">
+                <h3>Symbol Counts</h3>
+                <div id="symbol-stats-list">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- Center Section: Main Game -->
+        <main id="main-area">
+            <div id="hades-container">
+                <!-- Generative Hades SVG -->
+                <svg id="hades-svg" viewBox="0 0 200 200">
+                    <defs>
+                        <radialGradient id="face-grad" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" style="stop-color:#4a0000" />
+                            <stop offset="100%" style="stop-color:#000" />
+                        </radialGradient>
+                    </defs>
+                    <path d="M40,180 Q100,20 160,180 Z" fill="url(#face-grad)" stroke="#c00c0c" stroke-width="2" />
+                    <circle id="eye-l" cx="75" cy="100" r="10" fill="#222" />
+                    <circle id="eye-r" cx="125" cy="100" r="10" fill="#222" />
+                    <path id="mouth" d="M70,140 Q100,130 130,140" fill="none" stroke="#444" stroke-width="3" />
+                    <path d="M20,60 L50,80 M180,60 L150,80 M100,20 L100,50" stroke="#c00c0c" stroke-width="4" stroke-linecap="round" />
+                </svg>
+                <div id="escape-meter">
+                    <div id="escape-label">🪜 Escape Progress: <span id="escape-percent">0.000</span>%</div>
+                    <div class="progress-bar"><div id="progress-fill"></div></div>
+                </div>
+            </div>
+
+            <div id="slot-machine">
+                <div class="reels-container">
+                    <div class="reel-window">
+                        <div class="reel" id="reel-1"></div>
+                    </div>
+                    <div class="reel-window">
+                        <div class="reel" id="reel-2"></div>
+                    </div>
+                    <div class="reel-window">
+                        <div class="reel" id="reel-3"></div>
+                    </div>
+                    <div id="win-line"></div>
+                </div>
+
+                <div id="controls-wrapper">
+                    <div id="controls">
+                        <div class="bet-controls">
+                            <button id="bet-half" class="btn-small">½x</button>
+                            <button id="bet-minus" class="btn-small">-</button>
+                            <div id="bet-display">Bet: <span id="current-bet">10</span></div>
+                            <button id="bet-plus" class="btn-small">+</button>
+                            <button id="bet-double" class="btn-small">2x</button>
+                        </div>
+                        <button id="spin-button" class="btn-large">SPIN</button>
+                    </div>
+                    <div id="gold-display" class="gold-theme">
+                        <span class="coin-icon">🪙</span> Gold: <span id="stat-gold">500</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Right Section: Paytable -->
+        <aside id="paytable-panel" class="panel">
+            <h2>Fates' Rewards</h2>
+            <div id="legendary-reward">
+                <h3>Legendary</h3>
+                <div class="reward-row">
+                    <span class="sym-icon">🗝️</span>
+                    <span class="reward-text">= ESCAPE!</span>
+                </div>
+            </div>
+            <table id="paytable-table">
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Win</th>
+                        <th>Escape Progress</th>
+                    </tr>
+                </thead>
+                <tbody id="paytable-body">
+                    <!-- Populated by JS -->
+                </tbody>
+            </table>
+        </aside>
+    </div>
+
+    <!-- Overlays -->
+    <div id="victory-overlay" class="overlay hidden">
+        <div class="overlay-content olympus-theme">
+            <h1>LIBERATED!</h1>
+            <!-- Generative Zeus SVG -->
+            <svg id="zeus-svg" viewBox="0 0 200 200" width="200" height="200">
+                <circle cx="100" cy="100" r="80" fill="#00e5ff" fill-opacity="0.2" />
+                <path d="M40,160 Q100,20 160,160 Z" fill="#fff" stroke="#ffd700" stroke-width="2" />
+                <path d="M100,40 L120,80 L80,100 L110,140" fill="none" stroke="#ffd700" stroke-width="5" />
+                <circle cx="75" cy="100" r="5" fill="#004e92" />
+                <circle cx="125" cy="100" r="5" fill="#004e92" />
+            </svg>
+            <p>You have escaped the depths of the Underworld!</p>
+            <button id="victory-replay" class="btn-large">Ascend Again</button>
+        </div>
+    </div>
+
+    <div id="gameover-overlay" class="overlay hidden">
+        <div class="overlay-content underworld-theme">
+            <h1>SOUL CLAIMED</h1>
+            <p>Your gold is spent. Hades laughs in the dark.</p>
+            <button id="gameover-replay" class="btn-large">Bargain for Soul</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="tests.js"></script>
+</body>
+</html>
