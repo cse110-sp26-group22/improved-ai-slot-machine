@@ -1,0 +1,7 @@
+The game freezes when I click Mute. Two bugs:
+
+1. In audio.js, the playBackgroundMusic scheduleNote function returns early when muted (masterGain.gain.value === 0) but never reschedules itself, so the music loop dies permanently. Fix: always keep the loop running - just skip creating oscillators when muted, but still call setTimeout to reschedule.
+
+2. The createBrownNoise function is defined inside playBackgroundMusic but used in the small-win sound. If it hasn't been defined yet when small-win triggers, it crashes and freezes the game. Fix: move the createBrownNoise definition into createAllSounds so it's available immediately. Or simpler: remove the brown noise from small-win and just keep the coin clink sounds.
+
+Also the payline is still between the first and second row. It should be in the center of the middle row. The reels container is 240px with 10px padding, each symbol is 80px. The payline inside .reels should be at top: 50% with transform: translateY(-50%). Make sure the payline is a child of .reels and positioned relative to it.

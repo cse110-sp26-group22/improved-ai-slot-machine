@@ -1,0 +1,11 @@
+The slot machine has major issues:
+1. The reels are completely blank on load - no symbols are visible
+2. Clicking spin does nothing visible - the reels don't animate
+3. No sound plays
+4. Clicking differnt bet sizes doesn't change anything
+5. It feels like it's stuck or frozen screen
+6. The UI is bland. Just straight up icon called Pirate's Booty. No Pirates, parrots, gold, treasure, money, jewelery or anything.
+
+The root cause seems to be the reel animation logic. The init() function never positions the reels to show symbols in the viewport. The translateY calculations in animateReels() seem broken.
+
+Please fix the reel display and animation system. On page load, each reel should show 3 random symbols. When spinning, the reels should visually scroll through symbols and land on the result. Keep it simple and reliable - if the current translateY approach is too fragile, rewrite it with a simpler method. Also make sure the audio initializes on the first spin click.

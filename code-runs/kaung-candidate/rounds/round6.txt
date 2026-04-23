@@ -1,0 +1,20 @@
+Several fixes needed:
+
+1. SYMBOLS: The PIRATE_CAPTAIN emoji shows as a policeman. Change the symbols in constants.js to:
+   - PIRATE_CAPTAIN: '💎' (Diamond - jackpot symbol)
+   - TREASURE_CHEST: '👑' (Crown)
+   - PARROT: '🐢' (Sea Turtle)
+   - GOLD_COIN: '💰' (Money Bag - keep)
+   - ANCHOR: '⚓' (Anchor - keep)
+   - SKULL: '☠️' (Skull - keep)
+
+2. PAYLINE POSITION: The gold dashed payline is between the first and second row instead of centered on the middle row. Fix the CSS so the payline sits exactly across the center of the middle symbol.
+
+3. WAVE ANIMATION: The wave animation at the bottom of the page is not showing. The SVG in the base64 data URL may be broken. Replace it with a pure CSS wave effect using pseudo-elements with a wavy border-radius and animated translateX. Use two overlapping wave layers in different shades of blue, animating horizontally to simulate ocean waves at the bottom of the screen.
+
+4. FIRE BUTTON ANIMATION: Make the FIRE! button constantly pulse/flash when it's enabled to attract attention. Use a CSS animation that alternates between the normal gold color and a brighter glowing gold/orange, with a box-shadow pulse effect. The animation should stop when the button is disabled during a spin.
+
+5. Add more decorative animated elements:
+   - The palm tree emoji should gently sway (rotate back and forth)
+   - The pirate flag should have a subtle waving animation
+   - Add sparkle/shimmer animation to the gold dashed border

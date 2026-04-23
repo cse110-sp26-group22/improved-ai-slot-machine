@@ -1,0 +1,16 @@
+The game is working now but the audio needs major improvement:
+
+1. BACKGROUND MUSIC: There is no background music playing. Add a pirate-themed background music loop that starts as soon as the app/game loads. Use the Web Audio API to create a sea pirate style melody - something with a 3/4 or 6/8 time signature, using notes that sound nautical (think accordion/concertina feel) and pirates of the carribean theme like.Make it loop continuously. It should be thrilling, swashbuckling, epic, relentless, and charismatic and not annoying.
+
+2. WIN SOUNDS: The current win sounds are just basic beeps. Make them more exciting and rewarding:
+   - Small win (2 matching): a cheerful coin-clinking sound with rising notes, and a pirate's argh sound
+   - Big win (3 matching, 10x+): a dramatic fanfare with multiple layers - brass-like tones, rising arpeggios, make it feel like you struck treasure, and a single deep cannon boom 
+   - Jackpot (3 captains): an over-the-top celebration - layer the big win sound with shimmering high notes, a multiple deep cannon booms, and a long triumphant melody
+
+3. SPIN SOUND: Make the reel-spinning sound more mechanical/clicky, like a real slot machine lever being pulled and reels clicking as they spin.
+
+4. REEL STOP SOUND: Each reel stopping should have a satisfying "thunk" or "clack" sound.
+
+5. The mute button should stop ALL sounds including background music, and unmuting should resume the music.
+
+All audio should be generated with Web Audio API (no external files needed).

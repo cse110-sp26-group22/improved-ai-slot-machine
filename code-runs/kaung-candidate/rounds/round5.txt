@@ -1,0 +1,29 @@
+Several changes needed:
+
+1. FIX THE RTP - The current reel config only gives ~70% RTP. I calculated the correct math. Replace the REEL_CONFIG in constants.js with these EXACT reels (all 3 reels are identical, 12 positions each):
+
+['SKULL', 'SKULL', 'SKULL', 'SKULL', 'SKULL', 'SKULL', 'ANCHOR', 'ANCHOR', 'GOLD_COIN', 'PARROT', 'TREASURE_CHEST', 'PIRATE_CAPTAIN']
+
+And replace the PAYTABLE with these EXACT values:
+- PIRATE_CAPTAIN: 250
+- TREASURE_CHEST: 20
+- PARROT: 12
+- GOLD_COIN: 4
+- ANCHOR: 3
+- SKULL: 2
+- ANY_TWO: 1
+
+This gives exactly 95.02% RTP and 65.28% hit rate. Do NOT change these numbers.
+
+2. FASTER SPINS - Reduce spin timing. Reel 1 flickers for 0.6s, reel 2 for 0.9s, reel 3 for 1.2s.
+
+3. DOUBLE DOWN - When the first two reels land on the same symbol, pause before the third reel and show a "Double Down?" popup with Yes/No buttons and a 3 second countdown timer. If yes, the bet doubles for that spin. If no or timer expires, third reel reveals normally.
+
+4. PIRATE ISLAND UI - Transform the look:
+   - Background: tropical ocean gradient with animated CSS wave effects at the bottom
+   - Add decorative elements: palm trees, treasure chest, crossed swords, a ship, skull and crossbones flag near the title
+   - Game container should look like a treasure chest with rope-like gold dashed borders
+   - Rename "Spin" button to "FIRE!" with a cannon emoji
+   - Rename "Balance" to "Treasure" and "Bet" to "Wager"
+   - Make the payline a gold rope instead of red
+   - Add shimmer/wave animation to the background

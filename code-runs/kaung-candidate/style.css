@@ -1,0 +1,351 @@
+:root {
+    --gold: #ffd700;
+    --dark-wood: #6d4c41;
+    --ocean-blue-start: #00b4d8;
+    --ocean-blue-end: #0077b6;
+    --reel-bg: #f0e6d2;
+    --text-light: #f5f5f5;
+    --text-dark: #222;
+    --red-dark: #c62828;
+    --red-light: #f44336;
+    --font-family: 'Pirata One', cursive;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Pirata+One&family=Roboto:wght@400;700&display=swap');
+
+body {
+    background: linear-gradient(to top, var(--ocean-blue-end), var(--ocean-blue-start));
+    font-family: 'Roboto', sans-serif;
+    color: var(--text-light);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* New Pure CSS Wave Animation */
+body::before, body::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-repeat: repeat-x;
+    height: 100px;
+}
+body::before {
+    z-index: 2;
+    background-size: 50% 100px;
+    background-image: radial-gradient(circle at 50% 150%, var(--ocean-blue-end) 45%, transparent 46%);
+    animation: move-wave-1 8s linear infinite;
+}
+body::after {
+    z-index: 1;
+    opacity: 0.7;
+    background-size: 70% 120px;
+    background-image: radial-gradient(circle at 50% 150%, var(--ocean-blue-start) 45%, transparent 46%);
+    animation: move-wave-2 12s linear infinite;
+}
+@keyframes move-wave-1 {
+    0% { background-position-x: 0; }
+    100% { background-position-x: -50%; }
+}
+@keyframes move-wave-2 {
+    0% { background-position-x: 0; }
+    100% { background-position-x: -70%; }
+}
+
+
+#game-container {
+    background-color: var(--dark-wood);
+    border: 10px dashed var(--gold);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 25px #3e2723;
+    text-align: center;
+    width: 90%;
+    max-width: 800px;
+    position: relative;
+    z-index: 10;
+    animation: sparkle-border 2s ease-in-out infinite;
+}
+
+#game-container::before {
+    content: '🌴';
+    position: absolute;
+    top: -40px;
+    left: -50px;
+    font-size: 5rem;
+    transform-origin: bottom center;
+    z-index: -1;
+    animation: sway-palm-tree 4s ease-in-out infinite;
+}
+
+#game-container::after {
+    content: '🧰';
+    position: absolute;
+    bottom: -50px;
+    right: -40px;
+    font-size: 5rem;
+    z-index: -1;
+}
+
+.game-header h1 {
+    font-family: var(--font-family);
+    font-size: 3.5rem;
+    color: var(--gold);
+    text-shadow: 3px 3px 0px #000, 5px 5px 10px rgba(0,0,0,0.7);
+    margin: 0 0 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+.header-icon {
+    font-size: 2.5rem;
+    display: inline-block;
+}
+
+.header-icon:first-child {
+    animation: wave-flag 3s linear infinite;
+    transform-origin: bottom left;
+}
+
+
+#slot-machine {
+    background: #1a100e;
+    border: 5px solid #110b0a;
+    border-radius: 10px;
+    padding: 20px;
+    position: relative;
+    box-shadow: inset 0 0 10px #000;
+}
+
+.displays {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.display-box {
+    background: #111;
+    border: 2px solid var(--gold);
+    border-radius: 5px;
+    padding: 5px 15px;
+    width: 30%;
+    box-shadow: 0 0 15px var(--gold);
+}
+
+.display-box h2 {
+    font-size: 1.2rem;
+    margin: 0;
+    font-family: var(--font-family);
+    color: var(--gold);
+    letter-spacing: 1px;
+}
+
+.display-box p {
+    font-size: 1.5rem;
+    margin: 5px 0 0 0;
+    font-weight: bold;
+}
+
+.reels {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    background: #000;
+    border: 3px solid #777;
+    border-radius: 10px;
+    padding: 10px;
+    overflow: hidden;
+    height: 240px;
+    position: relative;
+}
+
+.reel {
+    width: 120px;
+    background-color: var(--reel-bg);
+    border-right: 2px solid #bbb;
+    border-left: 2px solid #bbb;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.reel .symbol {
+    height: 80px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 4rem;
+    line-height: 80px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    flex-shrink: 0;
+}
+
+.reel.flicker {
+    animation: flicker-reel 0.1s infinite alternate;
+}
+@keyframes flicker-reel {
+    from { filter: brightness(1); }
+    to { filter: brightness(1.2); }
+}
+
+.payline {
+    position: absolute;
+    top: 127.5px;
+    left: 0;
+    right: 0;
+    height: 5px;
+    border-top: 3px dashed var(--gold);
+    border-bottom: 3px dashed var(--gold);
+}
+
+#controls { margin-top: 20px; }
+.bet-controls {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+button {
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.bet-option {
+    background-color: #3e2723;
+    color: var(--text-light);
+    border-color: #6d4c41;
+}
+.bet-option:hover { background-color: #5d4037; }
+.bet-option.active {
+    background-color: var(--gold);
+    color: var(--text-dark);
+    border-color: #fff;
+    box-shadow: 0 0 15px var(--gold);
+}
+
+#spin-button {
+    background: linear-gradient(to bottom, #ffc107, #f57c00);
+    color: var(--text-dark);
+    border: 2px solid #ffecb3;
+    font-size: 2rem;
+    padding: 15px 40px;
+    text-transform: uppercase;
+    font-family: var(--font-family);
+    letter-spacing: 2px;
+}
+
+#spin-button:not(:disabled) {
+    animation: pulse-fire-button 1.5s infinite;
+}
+
+#spin-button:disabled {
+    background: #555;
+    color: #999;
+    cursor: not-allowed;
+    border-color: #777;
+    box-shadow: none;
+}
+
+#utility-controls { margin-top: 15px; display: flex; justify-content: center; gap: 10px; }
+#mute-button, #emergency-deposit-button {
+    background: #2a1a18;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    padding: 8px 15px;
+    border-color: #4a2c2a;
+}
+#mute-button.muted { background: var(--red-dark); }
+
+.hidden { display: none !important; }
+
+#double-down-popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.9);
+    border: 4px solid var(--gold);
+    border-radius: 15px;
+    padding: 20px 40px;
+    z-index: 200;
+    text-align: center;
+    box-shadow: 0 0 30px var(--gold);
+}
+#double-down-popup h2 { font-family: var(--font-family); font-size: 3rem; margin: 0; }
+#double-down-popup p { font-size: 1.2rem; margin: 10px 0; }
+#double-down-timer { font-size: 4rem; font-weight: bold; color: var(--red-light); }
+.double-down-buttons { margin-top: 15px; display: flex; gap: 20px; }
+
+
+#splash-container {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 100;
+}
+.splash { font-family: var(--font-family); color: var(--gold); text-align: center; text-shadow: 5px 5px 10px #000; }
+#big-win-splash h2 { font-size: 8rem; animation: big-win-anim 1s ease-out; }
+#jackpot-splash h2 { font-size: 10rem; animation: jackpot-anim 1.5s infinite; }
+.winning-symbol { animation: win-glow 0.5s ease-in-out infinite alternate; }
+
+@keyframes big-win-anim {
+    0% { transform: scale(0.5) rotate(-10deg); opacity: 0; }
+    80% { transform: scale(1.1) rotate(5deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+@keyframes jackpot-anim {
+    0%, 100% { transform: scale(1) rotate(-2deg); color: var(--gold); text-shadow: 0 0 20px #fff; }
+    50% { transform: scale(1.2) rotate(2deg); color: #fff; text-shadow: 0 0 30px var(--gold); }
+}
+@keyframes win-glow {
+    from { text-shadow: 0 0 10px #fff, 0 0 20px var(--gold), 0 0 30px var(--gold); }
+    to { text-shadow: 0 0 20px var(--gold), 0 0 30px #fff, 0 0 40px #fff; }
+}
+
+/* Animations */
+@keyframes pulse-fire-button {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 5px #ffeb3b;
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px #ffeb3b, 0 0 30px #f57c00;
+    }
+}
+
+@keyframes sway-palm-tree {
+    0%, 100% { transform: rotate(-8deg); }
+    50% { transform: rotate(0deg); }
+}
+
+@keyframes wave-flag {
+    0%, 100% { transform: skewX(0deg) rotate(0deg); }
+    50% { transform: skewX(-15deg) rotate(5deg); }
+}
+
+@keyframes sparkle-border {
+    0%, 100% { 
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 25px #3e2723, 0 0 15px -5px var(--gold); 
+    }
+    50% { 
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 25px #3e2723, 0 0 30px 5px #fff, 0 0 10px var(--gold); 
+    }
+}

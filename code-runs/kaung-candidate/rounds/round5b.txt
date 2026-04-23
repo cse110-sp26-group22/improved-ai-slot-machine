@@ -1,0 +1,10 @@
+Two features to add:
+
+1. DOUBLE DOWN - When the first two reels land on the same symbol, pause before the third reel. Show a "Double Down?" popup with Yes/No buttons and a 3 second countdown. Yes doubles the bet for that spin. No or timer expiry reveals the third reel normally.
+
+2. PIRATE ISLAND UI - Transform the look:
+   - Background: tropical ocean gradient with animated CSS wave effects at the bottom
+   - Add decorative elements: palm trees, treasure chest, crossed swords, a ship, skull flag near title
+   - Rope-like gold dashed borders on the game container
+   - Rename Spin to "FIRE!" with cannon emoji, Balance to "Treasure", Bet to "Wager"
+   - Gold payline instead of red
