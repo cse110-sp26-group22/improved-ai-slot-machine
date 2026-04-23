@@ -67,7 +67,7 @@
 | 4 | Good visuals/audio with minor gaps |
 | 3 | Basic visuals/audio; lacks polish |
 | 2 | Minimal effort in design or missing key elements |
-| 1 | No meaningful graphics or audio design |
+| 1 | No meaningful/related graphics or audio design |
 
 ---
 
